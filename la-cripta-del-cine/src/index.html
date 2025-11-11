@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>La Cripta del Cine</title>
+  <link rel="stylesheet" href="styles/style.css" />
+</head>
+<body>
+  <header>
+    <h1>🍿 La Cripta del Cine</h1>
+    <input id="search" placeholder="Buscar por título o filtrar gore mínimo (ej: gore:3)..." />
+  </header>
+
+  <main>
+    <h2>🎥 Películas Recomendadas</h2>
+    <div class="carousel-wrapper">
+      <button class="arrow left" data-carousel="recommended">❮</button>
+      <div class="carousel-container" id="carousel-recommended"></div>
+      <button class="arrow right" data-carousel="recommended">❯</button>
+    </div>
+
+    <h2>🇯🇵 Favoritas de Japón</h2>
+    <div class="carousel-wrapper">
+      <button class="arrow left" data-carousel="favoritesJapan">❮</button>
+      <div class="carousel-container" id="carousel-favoritesJapan"></div>
+      <button class="arrow right" data-carousel="favoritesJapan">❯</button>
+    </div>
+  </main>
+
+  <script src="scripts/main.js"></script>
+</body>
+</html>

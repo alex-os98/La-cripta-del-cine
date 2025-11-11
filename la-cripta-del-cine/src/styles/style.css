@@ -1,0 +1,94 @@
+body {
+  background-color: #000;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background: #111;
+  padding: 1rem;
+  position: sticky;
+  top: 0;
+}
+
+h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+h2 {
+  margin-top: 2rem;
+  color: #ff4040;
+}
+
+.carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1.5rem auto;
+  width: 80%;
+}
+
+.carousel-container {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  gap: 15px;
+  width: 80%;
+  padding: 10px;
+}
+
+.carousel-container::-webkit-scrollbar {
+  display: none; /* sin scroll visible */
+}
+
+.carousel-container img {
+  width: 180px;
+  height: 260px;
+  border-radius: 10px;
+  transition: transform 0.3s;
+  cursor: pointer;
+}
+
+.carousel-container img:hover {
+  transform: scale(1.1);
+}
+
+.arrow {
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  font-size: 2rem;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background 0.3s;
+}
+
+.arrow:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* layout del carrusel interno: los .card deben alinearse en fila */
+.carousel {
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+}
+
+.card {
+  min-width: 180px; /* mismo ancho que las imágenes para que no se colapsen */
+  flex: 0 0 auto; /* evitar que se encojan o expandan */
+  text-align: center;
+}
+
+.card img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  border-radius: 10px;
+}
