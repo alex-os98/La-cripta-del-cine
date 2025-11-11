@@ -11,7 +11,7 @@ async function init() {
   const carousels = await fetchJSON("/api/carousels");
 
   renderCarousel("", carousels.recommended, "carousel-recommended");
-  renderCarousel("Favoritas de Japón", carousels.favoritesJapan, "carousel-favoritesJapan");
+  renderCarousel("la Favoritas de Japón", carousels.favoritesJapan, "carousel-favoritesJapan");
 
   document.getElementById("search").addEventListener("input", handleSearch);
 }

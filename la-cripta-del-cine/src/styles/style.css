@@ -109,6 +109,9 @@ h2 {
 
 .player { margin-top: 1rem; display:flex; justify-content:center; }
 
+.levels { margin-top:0.6rem; color:#ffd1d1; }
+.levels strong { color:#fff; margin-right:4px; }
+
 .comments-section { margin-top: 1.5rem; }
 .comment { background: rgba(255,255,255,0.03); padding: 0.6rem; border-radius:6px; margin-bottom:0.6rem; }
 .comment b { color:#fff; }
