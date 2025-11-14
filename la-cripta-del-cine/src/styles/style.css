@@ -1,3 +1,6 @@
+/* Fuente cinematográfica */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
+
 body {
   background-color: #000;
   color: #fff;
@@ -5,6 +8,9 @@ body {
   text-align: center;
   margin: 0;
   padding: 0;
+  <footer class="codeflix-footer">
+  © 2025 <span>CodeFlix</span> — Todo el contenido pertenece a CodeFlix
+</footer>
 }
 
 header {
@@ -14,16 +20,34 @@ header {
   top: 0;
 }
 
-h1 {
-  margin: 0;
+h1, h2 {
+  font-family: "Cinzel", serif;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 1rem;
+  background: linear-gradient(90deg, #b86bff, #ff7b00); /* Morado → Naranja */
+  -webkit-background-clip: text;
+  color: transparent; /* El degradado se aplica como relleno del texto */
+}
+
+.codeflix-brand-banner {
+  text-align: center;
+  margin: 2.5rem 0;
+  font-family: "Cinzel", serif;
+  letter-spacing: 2px;
   font-size: 2rem;
+  color: transparent;
+  background: linear-gradient(90deg, #b86bff, #ff7b00);
+  -webkit-background-clip: text;
+  font-weight: 700;
 }
 
-h2 {
-  margin-top: 2rem;
-  color: #ff4040;
+.codeflix-brand-banner small {
+  display: block;
+  font-size: 0.9rem;
+  color: #bbb;
+  margin-top: 6px;
 }
-
 .carousel-wrapper {
   position: relative;
   display: flex;
