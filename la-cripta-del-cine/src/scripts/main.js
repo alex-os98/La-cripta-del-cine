@@ -13,17 +13,16 @@ async function init() {
   window.G_carousels = carousels;
 
   renderCarousel("", carousels.recommended, "carousel-recommended");
-  renderCarousel("Favoritas de Japón", carousels.japanClassics, "carousel-japanClassics");
+  renderCarousel("Favoritas de Japón", carousels.favoritesJapan, "carousel-favoritesJapan");
+  renderCarousel("Favoritas de España", carousels.favoritesSpain, "carousel-favoritesSpain");
+  renderCarousel("Favoritas de USA", carousels.favoritesUSA, "carousel-favoritesUSA");
   renderCarousel("Terror Coreano", carousels.koreanHorror, "carousel-koreanHorror");
   renderCarousel("Cine Extremo Francés", carousels.frenchExtreme, "carousel-frenchExtreme");
-  renderCarousel("Clásicos USA", carousels.usaClassics, "carousel-usaClassics");
-  renderCarousel("Terror Español", carousels.spanishHorror, "carousel-spanishHorror");
-  renderCarousel("Terror Latinoamericano", carousels.latinAmerican, "carousel-latinAmerican");
 
   document.getElementById("search").addEventListener("input", handleSearch);
 
 
->>>>>>> Stashed changes
+
   // Después de renderizar carruseles, inicializar lista paginada y botones
   renderAllMovies(1); // página inicial
   setupCarouselButtons();
@@ -115,9 +114,13 @@ function handleSearch(e) {
     // Volver al estado inicial sin recargar todo si ya tenemos allMovies
     // Re-renderizar carruseles y lista completa en página 1
     renderCarousel("", (window.G_carousels && window.G_carousels.recommended) || [], "carousel-recommended");
-    renderCarousel("la Favoritas de Japón", (window.G_carousels && window.G_carousels.favoritesJapan) || [], "carousel-favoritesJapan");
+    renderCarousel("Favoritas de Japón", (window.G_carousels && window.G_carousels.favoritesJapan) || [], "carousel-favoritesJapan");
     renderCarousel("Favoritas de España", (window.G_carousels && window.G_carousels.favoritesSpain) || [], "carousel-favoritesSpain");
     renderCarousel("Favoritas de USA", (window.G_carousels && window.G_carousels.favoritesUSA) || [], "carousel-favoritesUSA");
+    renderCarousel("Terror Coreano", (window.G_carousels && window.G_carousels.koreanHorror) || [], "carousel-koreanHorror");
+    renderCarousel("Cine Extremo Francés", (window.G_carousels && window.G_carousels.frenchExtreme) || [], "carousel-frenchExtreme");
+
+
     renderAllMovies(1);
     setupCarouselButtons();
     // Si preferimos recargar desde servidor, descomentar la siguiente línea:
