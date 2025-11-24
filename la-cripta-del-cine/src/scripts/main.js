@@ -85,7 +85,7 @@ function renderAllMovies(page = 1) {
     window.actualizarVisibilidadCarruseles(current);
   }
 
-  // 🔥 ARREGLO: Pasamos la página actual a scrollToTop para que sepa dónde ir
+  //ARREGLO: Pasamos la página actual a scrollToTop para que sepa dónde ir
   if (typeof window.scrollToTop === 'function') {
     window.scrollToTop(current); // <-- ¡Importante!
   }
@@ -165,6 +165,33 @@ function handleSearch(e) {
         <p class="card-title">${m.title}</p>
       </div>`).join("")}</div></section>`;
 }
+
+// --- Formulario de contacto ---
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("contactForm");
+  const msg = document.getElementById("contactMessage");
+
+  if (form) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const data = new FormData(form);
+      const name = data.get("name");
+      const email = data.get("email");
+      const message = data.get("message");
+
+      // Simulación de envío
+      console.log("Formulario enviado:", { name, email, message });
+
+      msg.textContent = "¡Gracias! Tu mensaje ha sido enviado.";
+      form.reset();
+
+      setTimeout(() => {
+        msg.textContent = "";
+      }, 3000);
+    });
+  }
+});
 
 
 window.openMovie = openMovie; // exponer para onclick inline

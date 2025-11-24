@@ -595,3 +595,80 @@ h2 {
 .crypt-door-overlay.open .door-logo {
   opacity: 0;
 }
+
+/* estilo del formulario*/
+.about-section {
+  padding: 50px 20px;
+  background: #0b0010;
+  text-align: center;
+  border-top: 2px solid #3a003a;
+}
+
+.about-section h2 {
+  color: #ff2e93;
+  margin-bottom: 30px;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.about-card {
+  background: rgba(20, 0, 25, 0.85);
+  border: 1px solid #550055;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: left;
+}
+
+.about-card h3 {
+  color: #ff2e93;
+  margin-bottom: 10px;
+}
+
+.about-card p {
+  color: #ddd;
+  line-height: 1.5;
+}
+
+.contact-form {
+  display: grid;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  background: #140016;
+  color: #fff;
+  border: 1px solid #6a006a;
+  border-radius: 6px;
+  padding: 8px;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #ff2e93;
+  box-shadow: 0 0 3px #ff2e93;
+}
+
+.contact-form button {
+  background: #ff2e93;
+  color: #0b0010;
+  font-weight: bold;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.contact-message {
+  color: #8affd1;
+  margin-top: 5px;
+  min-height: 18px;
+}
