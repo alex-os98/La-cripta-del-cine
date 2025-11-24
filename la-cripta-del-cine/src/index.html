@@ -2,66 +2,130 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <title>nombre la app</title>
+  <title>CODEFLIX</title>
   <link rel="stylesheet" href="styles/style.css" />
+
+  <script>
+    // Función para abrir la puerta de la cripta (se ejecuta en main.js)
+    window.openCryptDoor = function() {
+      const door = document.getElementById('crypt-door');
+      if (door) {
+        // 1. Inicia la animación de apertura añadiendo la clase 'open'
+        door.classList.add('open');
+        // 2. Elimina el elemento del DOM después de que termine la animación
+        setTimeout(() => {
+          door.remove();
+        }, 2500); 
+      }
+    };
+  </script>
 </head>
 <body>
+
+  <div id="crypt-door" class="crypt-door-overlay">
+    <div class="door-half left-half"></div>
+    <div class="door-half right-half"></div>
+    <div class="door-logo">CODEFLIX</div> 
+  </div>
+  
   <header>
-    <h1>🍿 La Cripta del Cine</h1>
-    <input id="search" placeholder="Buscar por título o filtrar gore mínimo (ej: gore:3)..." />
+    <div class="header-container">
+      <div class="header-title">🩸 La Cripta del Cine</div>
+      <div class="search-container">
+        <input id="search" placeholder="Buscar por título o filtrar gore mínimo (ej: gore:3)..." />
+      </div>
+    </div>
   </header>
 
   <main>
-    <h2>🎥 Películas Recomendadas</h2>
-    <div class="carousel-wrapper">
-      <button class="arrow left" data-carousel="recommended">❮</button>
-      <div class="carousel-container" id="carousel-recommended"></div>
-      <button class="arrow right" data-carousel="recommended">❯</button>
+    <div id="contenido-pagina-1" class="pagina-contenido">
+      <h2>🎥 Películas Recomendadas</h2>
+      <div class="carousel-wrapper">
+        <button class="arrow left" data-carousel="recommended">❮</button>
+        <div class="carousel-container" id="carousel-recommended"></div>
+        <button class="arrow right" data-carousel="recommended">❯</button>
+      </div>
+
+      <h2>🇯🇵 Favoritas de Japón</h2>
+      <div class="carousel-wrapper">
+        <button class="arrow left" data-carousel="favoritesJapan">❮</button>
+        <div class="carousel-container" id="carousel-favoritesJapan"></div>
+        <button class="arrow right" data-carousel="favoritesJapan">❯</button>
+      </div>
+
+      <h2>🇰🇷 Terror Coreano</h2>
+      <div class="carousel-wrapper">
+        <button class="arrow left" data-carousel="koreanHorror">❮</button>
+        <div class="carousel-container" id="carousel-koreanHorror"></div>
+        <button class="arrow right" data-carousel="koreanHorror">❯</button>
+      </div>
+
+      <h2>🇫🇷 Cine Extremo Francés</h2>
+      <div class="carousel-wrapper">
+        <button class="arrow left" data-carousel="frenchExtreme">❮</button>
+        <div class="carousel-container" id="carousel-frenchExtreme"></div>
+        <button class="arrow right" data-carousel="frenchExtreme">❯</button>
+      </div>
+      
+      <h2>🇪🇸 Favoritas de España</h2>
+      <div class="carousel-wrapper">
+        <button class="arrow left" data-carousel="favoritesSpain">❮</button>
+        <div class="carousel-container" id="carousel-favoritesSpain"></div>
+        <button class="arrow right" data-carousel="favoritesSpain">❯</button>
+      </div>
+
+      <h2>🇺🇸 Favoritas de USA</h2>
+      <div class="carousel-wrapper">
+        <button class="arrow left" data-carousel="favoritesUSA">❮</button>
+        <div class="carousel-container" id="carousel-favoritesUSA"></div>
+        <button class="arrow right" data-carousel="favoritesUSA">❯</button>
+      </div>
     </div>
 
-    <h2>(Bandera de japon) Favoritas de Japón</h2>
-    <div class="carousel-wrapper">
-      <button class="arrow left" data-carousel="favoritesJapan">❮</button>
-      <div class="carousel-container" id="carousel-favoritesJapan"></div>
-      <button class="arrow right" data-carousel="favoritesJapan">❯</button>
-    </div>
-
-    <!-- Después de las secciones existentes -->
-<h2> Terror Coreano</h2>
-<div class="carousel-wrapper">
-  <button class="arrow left" data-carousel="koreanHorror">❮</button>
-  <div class="carousel-container" id="carousel-koreanHorror"></div>
-  <button class="arrow right" data-carousel="koreanHorror">❯</button>
-</div>
-
-<h2> Cine Extremo Francés</h2>
-<div class="carousel-wrapper">
-  <button class="arrow left" data-carousel="frenchExtreme">❮</button>
-  <div class="carousel-container" id="carousel-frenchExtreme"></div>
-  <button class="arrow right" data-carousel="frenchExtreme">❯</button>
-</div>
-    
-    <h2>(Bandera de españa) Favoritas de España</h2>
-    <div class="carousel-wrapper">
-      <button class="arrow left" data-carousel="favoritesSpain">❮</button>
-      <div class="carousel-container" id="carousel-favoritesSpain"></div>
-      <button class="arrow right" data-carousel="favoritesSpain">❯</button>
-    </div>
-
-    <h2>(Bandera de USA) Favoritas de USA</h2>
-    <div class="carousel-wrapper">
-      <button class="arrow left" data-carousel="favoritesUSA">❮</button>
-      <div class="carousel-container" id="carousel-favoritesUSA"></div>
-      <button class="arrow right" data-carousel="favoritesUSA">❯</button>
-    </div>
-
-    <!-- Sección con todas las películas paginadas (solo imagen + título) -->
     <section id="all-movies">
       <h2>Todas las películas</h2>
       <div id="movies-grid" class="movies-grid"></div>
       <div id="movies-pagination" class="pagination"></div>
     </section>
   </main>
+
+  <script>
+    // Control de visibilidad de carruseles
+    window.actualizarVisibilidadCarruseles = function(paginaActual) {
+      const contenidoPagina1 = document.getElementById('contenido-pagina-1');
+      
+      if (paginaActual === 1) {
+        contenidoPagina1.style.display = 'block';
+      } else {
+        contenidoPagina1.style.display = 'none';
+      }
+    }
+
+    // ARREGLO DE SCROLL: La función ahora decide a dónde hacer scroll basándose en la página.
+    window.scrollToTop = function(paginaActual) {
+      let targetElement;
+      
+      if (paginaActual === 1) {
+        // PÁGINA 1: Scroll al inicio de los carruseles (Recomendadas)
+        targetElement = document.getElementById('contenido-pagina-1');
+      } else {
+        // PÁGINAS > 1: Scroll al inicio del listado paginado
+        targetElement = document.getElementById('all-movies');
+      }
+
+      if (targetElement) {
+        targetElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    }
+
+    // Inicializar - carruseles visibles en página 1
+    document.addEventListener('DOMContentLoaded', function() {
+      actualizarVisibilidadCarruseles(1);
+    });
+  </script>
 
   <script src="scripts/main.js"></script>
 </body>
