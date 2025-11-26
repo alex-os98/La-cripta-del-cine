@@ -6,7 +6,13 @@ async function fetchJSON(url) {
 
 let allMovies = [];
 
+
 async function init() {
+  // 🔥 ARREGLO: Ejecutamos openCryptDoor al inicio para asegurar que la animación de la puerta se inicie
+  if (typeof window.openCryptDoor === 'function') {
+      window.openCryptDoor();
+  }
+  
   allMovies = await fetchJSON("/api/movies");
   const carousels = await fetchJSON("/api/carousels");
   // guardar carousels en variable global para poder re-renderizarlos sin volver a pedir al servidor
@@ -20,7 +26,6 @@ async function init() {
   renderCarousel("Cine Extremo Francés", carousels.frenchExtreme, "carousel-frenchExtreme");
 
   document.getElementById("search").addEventListener("input", handleSearch);
-
 
 
   // Después de renderizar carruseles, inicializar lista paginada y botones
@@ -68,9 +73,22 @@ function renderAllMovies(page = 1) {
   pagination.querySelectorAll('.page-btn').forEach(b => {
     b.addEventListener('click', () => {
       const p = Number(b.dataset.page);
-      if (p >= 1 && p <= totalPages) renderAllMovies(p);
+      if (p >= 1 && p <= totalPages) {
+        // Al hacer click, llamar a renderAllMovies(p)
+        renderAllMovies(p);
+      }
     });
   });
+
+  // Lógica de control de visibilidad de carruseles (página 1 vs otras)
+  if (typeof window.actualizarVisibilidadCarruseles === 'function') {
+    window.actualizarVisibilidadCarruseles(current);
+  }
+
+  //ARREGLO: Pasamos la página actual a scrollToTop para que sepa dónde ir
+  if (typeof window.scrollToTop === 'function') {
+    window.scrollToTop(current); // <-- ¡Importante!
+  }
 }
 
 function renderCarousel(title, ids, containerId) {
@@ -111,7 +129,6 @@ function handleSearch(e) {
   const q = e.target.value.trim().toLowerCase();
   if (!q) {
     // restaurar carruseles originales
-    // Volver al estado inicial sin recargar todo si ya tenemos allMovies
     // Re-renderizar carruseles y lista completa en página 1
     renderCarousel("", (window.G_carousels && window.G_carousels.recommended) || [], "carousel-recommended");
     renderCarousel("Favoritas de Japón", (window.G_carousels && window.G_carousels.favoritesJapan) || [], "carousel-favoritesJapan");
@@ -123,8 +140,6 @@ function handleSearch(e) {
 
     renderAllMovies(1);
     setupCarouselButtons();
-    // Si preferimos recargar desde servidor, descomentar la siguiente línea:
-    // init();
     return;
   }
 
@@ -188,4 +203,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
 window.openMovie = openMovie; // exponer para onclick inline
 init();
-// NOTA: setupCarouselButtons se llama desde init() después de renderizar
