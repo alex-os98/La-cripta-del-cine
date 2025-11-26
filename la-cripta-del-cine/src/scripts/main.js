@@ -57,11 +57,11 @@ function renderAllMovies(page = 1) {
 
   // construir paginación simple: anterior, números y siguiente
   let pagesHtml = '';
-  pagesHtml += `<button class="page-btn" data-page="${current - 1}" ${current===1? 'disabled': ''}>‹</button>`;
+  pagesHtml += `<button class="page-btn" data-page="${current - 1}" ${current === 1 ? 'disabled' : ''}>‹</button>`;
   for (let p = 1; p <= totalPages; p++) {
-    pagesHtml += `<button class="page-btn ${p===current? 'active':''}" data-page="${p}">${p}</button>`;
+    pagesHtml += `<button class="page-btn ${p === current ? 'active' : ''}" data-page="${p}">${p}</button>`;
   }
-  pagesHtml += `<button class="page-btn" data-page="${current + 1}" ${current===totalPages? 'disabled' : ''}>›</button>`;
+  pagesHtml += `<button class="page-btn" data-page="${current + 1}" ${current === totalPages ? 'disabled' : ''}>›</button>`;
   pagination.innerHTML = pagesHtml;
 
   // enlazar eventos de paginación
@@ -150,6 +150,41 @@ function handleSearch(e) {
         <p class="card-title">${m.title}</p>
       </div>`).join("")}</div></section>`;
 }
+
+// --- Formulario de contacto ---
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("contactForm");
+  const msg = document.getElementById("contactMessage");
+
+  if (!form || !msg) return;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const data = new FormData(form);
+    const name = data.get("name");
+    const email = data.get("email");
+    const message = data.get("message");
+
+    try {
+      const r = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, message })
+      });
+
+      if (!r.ok) throw new Error("No se pudo enviar");
+
+      msg.textContent = "¡Gracias! Tu mensaje ha sido guardado.";
+      form.reset();
+    } catch (err) {
+      console.error(err);
+      msg.textContent = "Ups, hubo un error al enviar.";
+    }
+
+    setTimeout(() => (msg.textContent = ""), 3000);
+  });
+});
 
 window.openMovie = openMovie; // exponer para onclick inline
 init();

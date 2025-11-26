@@ -2,12 +2,12 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <title>nombre la app</title>
+  <title>CodeFlix</title>
   <link rel="stylesheet" href="styles/style.css" />
 </head>
 <body>
   <header>
-    <h1>🍿 La Cripta del Cine</h1>
+    <h1>CodeFlix</h1>
     <input id="search" placeholder="Buscar por título o filtrar gore mínimo (ej: gore:3)..." />
   </header>
 
@@ -19,7 +19,7 @@
       <button class="arrow right" data-carousel="recommended">❯</button>
     </div>
 
-    <h2>(Bandera de japon) Favoritas de Japón</h2>
+    <h2> Favoritas de Japón</h2>
     <div class="carousel-wrapper">
       <button class="arrow left" data-carousel="favoritesJapan">❮</button>
       <div class="carousel-container" id="carousel-favoritesJapan"></div>
@@ -41,14 +41,14 @@
   <button class="arrow right" data-carousel="frenchExtreme">❯</button>
 </div>
     
-    <h2>(Bandera de españa) Favoritas de España</h2>
+    <h2> Favoritas de España</h2>
     <div class="carousel-wrapper">
       <button class="arrow left" data-carousel="favoritesSpain">❮</button>
       <div class="carousel-container" id="carousel-favoritesSpain"></div>
       <button class="arrow right" data-carousel="favoritesSpain">❯</button>
     </div>
 
-    <h2>(Bandera de USA) Favoritas de USA</h2>
+    <h2> Favoritas de USA</h2>
     <div class="carousel-wrapper">
       <button class="arrow left" data-carousel="favoritesUSA">❮</button>
       <div class="carousel-container" id="carousel-favoritesUSA"></div>
@@ -61,6 +61,54 @@
       <div id="movies-grid" class="movies-grid"></div>
       <div id="movies-pagination" class="pagination"></div>
     </section>
+
+    <!-- Sección Quiénes somos / Visión / Contacto -->
+    <section id="about-section" class="about-section">
+      <h2>Sobre Nosotros</h2>
+
+      <div class="about-grid">
+
+        <article class="about-card">
+          <h3>¿Quiénes somos?</h3>
+          <p>
+            Somos un equipo apasionado por el cine de terror. Creamos La Cripta del Cine
+            como un proyecto para explorar, catalogar y compartir lo mejor del horror en todas sus vertientes.
+          </p>
+        </article>
+
+        <article class="about-card">
+          <h3>Nuestra visión</h3>
+          <p>
+            Queremos construir un espacio donde cualquier fan del terror pueda descubrir nuevas películas,
+            conocer clásicos, explorar subgéneros y disfrutar de un catálogo seleccionado cuidadosamente.
+          </p>
+        </article>
+
+        <article class="about-card">
+          <h3>Contacto</h3>
+          
+          <form id="contactForm" class="contact-form">
+            <label>
+              Nombre:
+              <input type="text" name="name" required>
+            </label>
+            <label>
+              Correo electrónico:
+              <input type="email" name="email" required>
+            </label>
+            <label>
+              Mensaje:
+              <textarea name="message" rows="4" required></textarea>
+            </label>
+            
+            <button type="submit">Enviar</button>
+            <p id="contactMessage" class="contact-message"></p>
+          </form>
+        </article>
+
+      </div>
+    </section>
+
   </main>
 
   <script src="scripts/main.js"></script>
