@@ -85,7 +85,7 @@ function renderAllMovies(page = 1) {
     window.actualizarVisibilidadCarruseles(current);
   }
 
-  // 🔥 ARREGLO: Pasamos la página actual a scrollToTop para que sepa dónde ir
+  //ARREGLO: Pasamos la página actual a scrollToTop para que sepa dónde ir
   if (typeof window.scrollToTop === 'function') {
     window.scrollToTop(current); // <-- ¡Importante!
   }
@@ -166,6 +166,40 @@ function handleSearch(e) {
       </div>`).join("")}</div></section>`;
 }
 
+// --- Formulario de contacto ---
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("contactForm");
+  const msg = document.getElementById("contactMessage");
+
+  if (!form || !msg) return;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const data = new FormData(form);
+    const name = data.get("name");
+    const email = data.get("email");
+    const message = data.get("message");
+
+    try {
+      const r = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, message })
+      });
+
+      if (!r.ok) throw new Error("No se pudo enviar");
+
+      msg.textContent = "¡Gracias! Tu mensaje ha sido guardado.";
+      form.reset();
+    } catch (err) {
+      console.error(err);
+      msg.textContent = "Ups, hubo un error al enviar.";
+    }
+
+    setTimeout(() => (msg.textContent = ""), 3000);
+  });
+});
 
 window.openMovie = openMovie; // exponer para onclick inline
 init();
