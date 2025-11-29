@@ -16,6 +16,7 @@ header {
   padding: 1rem;
   position: sticky;
   top: 0;
+  z-index: 3000;
 }
 
 h1,
@@ -424,6 +425,38 @@ h2 {
   background: #ff4040;
   border-color: #ff4040;
 }
+
+/* Estilos para los nuevos controles de filtro */
+.search-row { display:flex; align-items:center; gap:12px; justify-content:center; }
+/* Ajuste: hacer que la búsqueda y el toggle de tags estén alineados y el desplegable se posicione cerca */
+.search-row { position:relative; display:flex; align-items:center; gap:12px; justify-content:center; }
+.search-row input#search { width:380px; padding:8px 10px; border-radius:6px; border:1px solid #333; background:#0b0b0b; color:#fff; }
+#filters-inline { display:flex; gap:8px; align-items:center; }
+#filters-inline label { color:#ddd; font-size:0.9rem; }
+#filters-inline select { margin-left:6px; padding:4px 6px; border-radius:6px; background:#000; color:#fff; border:1px solid #333; }
+
+.filters-panel { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; width:90%; margin:12px auto; padding:10px 12px; background:rgba(255,255,255,0.03); border-radius:8px; }
+.filters-left { flex:1; text-align:left; }
+.filters-right { width:220px; text-align:right; }
+.tags-list { display:flex; flex-wrap:wrap; gap:8px; }
+.tag-checkbox { background:rgba(255,255,255,0.02); padding:6px 8px; border-radius:6px; font-size:0.9rem; }
+#results-summary { font-weight:700; color:#ffd9d9; }
+
+/* Desplegable de tags */
+.tags-toggle { display:inline-flex; align-items:center; gap:8px; padding:6px 10px; background:#111; color:#fff; border:1px solid #333; border-radius:6px; cursor:pointer; }
+.tags-toggle .arrow { display:inline-block; transition: transform 200ms ease; }
+.tags-toggle.open .arrow { transform: rotate(180deg); }
+.tags-container { margin-top:8px; }
+.tags-container.hidden { display:none; }
+.tags-list { max-height:240px; overflow:auto; padding:6px; }
+
+/* Posicionar el desplegable relativo al contenedor de búsqueda */
+.search-row .tags-inline { position: relative; }
+.search-row .tags-inline .tags-container { position: absolute; top: calc(100% + 8px); right: 0; width: 320px; background: rgba(0,0,0,0.95); border:1px solid #222; padding:10px; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,0.6); z-index:9999; }
+
+/* Botón limpiar filtros */
+.clear-filters { margin-left:12px; padding:6px 10px; background:#222; color:#fff; border:1px solid #333; border-radius:6px; cursor:pointer; }
+.clear-filters:hover { background:#2b2b2b; }
 
 /* estilo del formulario*/
 .about-section {

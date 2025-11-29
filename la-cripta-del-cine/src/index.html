@@ -8,8 +8,30 @@
 <body>
   <header>
     <h1>CodeFlix</h1>
-    <input id="search" placeholder="Buscar por título o filtrar gore mínimo (ej: gore:3)..." />
+    <div class="search-row">
+      <input id="search" placeholder="Buscar por título o descripción..." />
+      <div id="filters-inline">
+        <label>Gore ≥ <select id="filter-gore"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label>
+        <label>Miedo ≥ <select id="filter-scares"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label>
+        <label>Jumps ≥ <select id="filter-jumps"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label>
+        <label>Suspenso ≥ <select id="filter-suspense"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label>
+      </div>
+      <div class="tags-inline">
+        <button id="tags-toggle" class="tags-toggle">Seleccionar por tags <span class="arrow">▾</span></button>
+        <div id="tags-container" class="tags-container hidden">
+          <div id="tags-list" class="tags-list">Cargando tags...</div>
+        </div>
+      </div>
+    </div>
   </header>
+  <section id="filters-panel" class="filters-panel">
+    <div class="filters-left">
+      <h3>&nbsp;</h3>
+    </div>
+    <div class="filters-right">
+      <div id="results-summary">Se encontraron <span id="results-count">0</span> películas <button id="clear-filters" class="clear-filters">Limpiar filtros</button></div>
+    </div>
+  </section>
 
   <main>
     <h2>🎥 Películas Recomendadas</h2>

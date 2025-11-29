@@ -11,8 +11,8 @@
       "posesiones",
       "basada en hechos reales"
     ],
-    "gore": 3.5,
-    "scares": 4.5,
+    "gore": 4,
+    "scares": 4.7,
     "subgenre": "Sobrenatural",
     "comments": [
       {
@@ -26,12 +26,12 @@
         "date": "2025-11-11T02:46:47.368Z"
       }
     ],
-    "jumpscares": 4.5,
-    "suspense": 4.5,
-    "gore_count": 2,
-    "scares_count": 2,
-    "jumps_count": 2,
-    "suspense_count": 2
+    "jumpscares": 4.7,
+    "suspense": 4.3,
+    "gore_count": 3,
+    "scares_count": 3,
+    "jumps_count": 3,
+    "suspense_count": 3
   },
   {
     "id": 2,
