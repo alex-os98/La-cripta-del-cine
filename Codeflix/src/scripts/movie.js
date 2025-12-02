@@ -51,17 +51,9 @@ async function load() {
           <!-- movie.jumpscares: número aproximado de sobresaltos tipo "jump" en la película (0-5) -->
           <!-- movie.suspensos: nivel de suspenso 1-5; si no está, el servidor puede devolver suspense por defecto -->
           <p class="levels"><strong>Jumpscares:</strong> ${movie.jumpscares ?? 'N/A'} &nbsp; <strong>Suspenso:</strong> ${movie.suspense ?? 'N/A'} / 5</p>
+          <!-- Botón para mostrar trailer (posicionado más arriba, junto a las métricas) -->
+          <div style="text-align:left;margin-top:18px;"><button id="show-trailer" class="simulate-btn trailer-btn">Ver trailer</button></div>
         </div>
-      </div>
-
-            <div class="player">
-        <h3>Trailer</h3>
-            ${movie.trailer && movie.trailer.type === 'youtube'
-      ? `<iframe width="720" height="405" src="${movie.trailer.url}" frameborder="0" allowfullscreen></iframe>`
-      : movie.trailer && movie.trailer.type === 'local'
-        ? `<video id="trailer-video" controls width="720"><source src="${movie.trailer.url}" type="video/mp4">Tu navegador no soporta el elemento video.</video>`
-        : `<video id="trailer-video" controls width="720" src="${movie.video}"></video>`
-    }
       </div>
 
       <div class="player">
@@ -71,8 +63,8 @@ async function load() {
           <source src="/videos/trailers/codeflix.mp4" type="video/mp4">
           Tu navegador no soporta el elemento video.
         </video>
-        <!-- Botón de simulación para marcar el fin de la película -->
-        <div style="text-align:center;margin-top:8px;"><button id="simulate-end" class="simulate-btn">He terminado de ver</button></div>
+        <!-- Botón para abrir el formulario de valoración -->
+        <div style="text-align:center;margin-top:8px;"><button id="simulate-end" class="simulate-btn">Calificar película</button></div>
       </div>
 
       <section class="comments-section">
@@ -93,6 +85,93 @@ async function load() {
 
   // Agrega un listener al botón "Enviar" para procesar el nuevo comentario
   document.getElementById("send").addEventListener("click", addComment);
+
+  // Botón para mostrar el trailer bajo demanda en un modal emergente
+  const showTrailerBtn = document.getElementById('show-trailer');
+  if (showTrailerBtn) {
+    showTrailerBtn.addEventListener('click', () => {
+      if (showTrailerBtn.dataset.clicked) return; // evitar múltiples aperturas
+      showTrailerBtn.dataset.clicked = '1';
+      // Crear overlay/modal
+      const overlay = document.createElement('div');
+      overlay.id = 'trailer-modal';
+      overlay.className = 'trailer-overlay';
+      overlay.innerHTML = `
+        <div class="trailer-box">
+          <button id="trailer-close" class="trailer-close">✕</button>
+          <div id="trailer-content" class="trailer-content">Cargando trailer…</div>
+          <div style="text-align:center;margin-top:12px;"><button id="trailer-close-bottom" class="trailer-close-bottom">Cerrar</button></div>
+        </div>
+      `;
+      document.body.appendChild(overlay);
+
+      const content = document.getElementById('trailer-content');
+      // Preparar listener de teclado para Escape
+      let keyHandler = (e) => { if (e.key === 'Escape') closeModal(); };
+
+      // Función para cerrar modal
+      function closeModal() {
+        const m = document.getElementById('trailer-modal');
+        if (m) {
+          // pausar cualquier video que esté reproduciéndose
+          const v = m.querySelector('video');
+          if (v && !v.paused) {
+            try { v.pause(); v.currentTime = 0; } catch (err) {}
+          }
+          m.remove();
+        }
+        showTrailerBtn.style.display = ''; // permitir volver a abrir si se desea
+        delete showTrailerBtn.dataset.clicked;
+        document.removeEventListener('keydown', keyHandler);
+      }
+
+      // Agregar listener para el botón de cerrar (superior) y el botón inferior
+      document.getElementById('trailer-close').addEventListener('click', closeModal);
+      const bottomClose = document.getElementById('trailer-close-bottom');
+      if (bottomClose) bottomClose.addEventListener('click', closeModal);
+      // Añadir listener para cerrar con Escape
+      document.addEventListener('keydown', keyHandler);
+
+      // Renderizar trailer según tipo
+      if (movie.trailer && movie.trailer.type === 'youtube') {
+        const iframe = document.createElement('iframe');
+        iframe.width = '920';
+        iframe.height = '518';
+        iframe.src = movie.trailer.url;
+        iframe.frameBorder = '0';
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+        iframe.allowFullscreen = true;
+        content.innerHTML = '';
+        content.appendChild(iframe);
+      } else if (movie.trailer && movie.trailer.type === 'local') {
+        const v = document.createElement('video');
+        v.id = 'trailer-video';
+        v.controls = true;
+        v.width = 920;
+        const s = document.createElement('source');
+        s.src = movie.trailer.url;
+        s.type = 'video/mp4';
+        v.appendChild(s);
+        content.innerHTML = '';
+        content.appendChild(v);
+        v.addEventListener('ended', () => { closeModal(); showRatingForm(movie); });
+      } else if (movie.video) {
+        const v = document.createElement('video');
+        v.id = 'trailer-video';
+        v.controls = true;
+        v.width = 920;
+        v.src = movie.video;
+        content.innerHTML = '';
+        content.appendChild(v);
+        v.addEventListener('ended', () => { closeModal(); showRatingForm(movie); });
+      } else {
+        content.innerHTML = '<p>Trailer no disponible</p>';
+      }
+
+      // Cerrar modal al pulsar fuera de la caja
+      overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+    });
+  }
 
   // Si existe un elemento video, añadimos evento 'ended' para mostrar el formulario al terminar
   const vid = document.getElementById('movie-video');

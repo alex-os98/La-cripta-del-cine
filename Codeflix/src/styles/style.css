@@ -180,8 +180,20 @@ h2 {
 
 .player {
   margin-top: 1rem; /* Separación superior */
-  display: flex; /* Centrado del reproductor */
-  justify-content: center;
+  display: block; /* Mostrar en bloque para poder centrar título y video debajo */
+  text-align: center; /* Centrar contenido dentro del player */
+}
+
+.player h3 {
+  text-align: center; /* Centrar la palabra 'Película' */
+  margin: 0 0 0.6rem 0; /* Espaciado inferior */
+}
+
+.player video {
+  display: block; /* Asegura que el video se muestre en bloque */
+  margin: 0.5rem auto; /* Centra el video horizontalmente y separa verticalmente */
+  max-width: 100%;
+  height: auto;
 }
 
 .levels {
@@ -296,6 +308,91 @@ h2 {
   color: #fff;
   border: 1px solid #444;
   cursor: pointer;
+}
+
+/* Estilos para el modal del trailer */
+.trailer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+.trailer-box {
+  position: relative;
+  background: #000;
+  padding: 12px;
+  border-radius: 8px;
+  max-width: 95%;
+  max-height: 92%;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+}
+.trailer-content iframe,
+.trailer-content video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+.trailer-close {
+  position: absolute;
+  right: 8px;
+  top: 6px;
+  background: transparent;
+  color: #fff;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* Botón cerrar destacado: círculo con contraste y efecto hover */
+.trailer-close {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.06);
+  border-radius: 50%;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+.trailer-close:hover {
+  background: rgba(255,255,255,0.12);
+}
+
+/* Botón Cerrar inferior dentro del modal */
+.trailer-close-bottom {
+  padding: 8px 14px;
+  background: linear-gradient(90deg, #b86bff, #ff7b00); /* mismo degradado que el logo */
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+}
+.trailer-close-bottom:hover {
+  filter: brightness(0.95);
+}
+
+/* Ajuste específico para el botón del trailer (alinearlo a la izquierda sin afectar otros botones) */
+.trailer-btn {
+  margin-left: 0;
+  padding-left: 6px;
+}
+
+/* Botón Ver trailer con mismo degradado que el logo */
+.trailer-btn {
+  background: linear-gradient(90deg, #b86bff, #ff7b00);
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: 700;
+}
+.trailer-btn:hover {
+  filter: brightness(0.95);
 }
 
 /* Estilos para control de estrellas */

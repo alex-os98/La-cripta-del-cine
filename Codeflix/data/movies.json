@@ -581,12 +581,16 @@
       "posesiones",
       "chamanismo"
     ],
-    "gore": 4,
-    "scares": 5,
+    "gore": 3.3,
+    "scares": 3.7,
     "subgenre": "Sobrenatural",
     "comments": [],
-    "jumpscares": 5,
-    "suspense": 5
+    "jumpscares": 3.7,
+    "suspense": 3.7,
+    "gore_count": 3,
+    "scares_count": 3,
+    "jumps_count": 3,
+    "suspense_count": 3
   },
   {
     "id": 27,
