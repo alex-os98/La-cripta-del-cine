@@ -370,36 +370,67 @@ function openMovie(id) {
 // ================================
 // FORMULARIO DE CONTACTO
 // ================================
+// Espera a que todo el DOM esté cargado antes de ejecutar el script
 document.addEventListener("DOMContentLoaded", () => {
+  // Obtiene el formulario y el contenedor donde se mostrarán los mensajes al usuario
   const form = document.getElementById("contactForm");
   const msg = document.getElementById("contactMessage");
+  // Si el formulario o el mensaje no existen, el script no hace nada
   if (!form || !msg) return;
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+    // Agrega un listener al evento "submit" del formulario
+    form.addEventListener("submit", async (e) => {
+    e.preventDefault();// Evita que la página se recargue al enviar el formulario
+
+    // Obtiene todos los datos del formulario
     const data = new FormData(form);
-    const payload = {
-      name: data.get("name"),
-      email: data.get("email"),
-      message: data.get("message")
-    };
+    const name = (data.get("name") || "").trim();
+    const email = (data.get("email") || "").trim();
+    const message = (data.get("message") || "").trim(); // no se valida
+
+    /**
+     * Expresión regular para validar correos electrónicos permitidos.
+     * Acepta dominios específicos como:
+     * - Gmail (com, mx, es, com.mx)
+     * - Hotmail (com, es)
+     * - Outlook (com, es, com.mx)
+     * - ciencias.unam.mx
+     */
+    const emailRegex = /^[^\s@]+@(gmail\.(com|mx|es|com\.mx)|hotmail\.(com|es)|outlook\.(com|es|com\.mx)|ciencias\.unam\.mx)$/i;
+
+    // Verifica que el nombre no esté vacío y tenga al menos 2 caracteres
+    if (!name || name.length < 2) {
+    msg.textContent = "Nombre inválido. Introduce un nombre válido.";
+    return;
+    }
+
+     // Verifica que el correo cumpla con el patrón de la regex
+    if (!emailRegex.test(email)) {
+      msg.textContent = "Por favor ingresa un correo electrónico válido.";
+      return;
+    }
 
     try {
+      // Realiza una petición POST a la ruta "/api/contact"
       const r = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
+        body: JSON.stringify({ name, email, message })
       });
 
+       // Si el servidor responde con error, lanza excepción
       if (!r.ok) throw new Error("No se pudo enviar");
+
       msg.textContent = "¡Gracias! Tu mensaje ha sido guardado.";
       form.reset();
     } catch (err) {
+      // Si ocurre un error en la petición fetch, se captura aquí
       console.error(err);
       msg.textContent = "Ups, hubo un error al enviar.";
     }
 
-    setTimeout(() => msg.textContent = "", 3000);
+    // Limpia el mensaje después de 3 segundos
+    setTimeout(() => (msg.textContent = ""), 3000);
   });
 });
 
