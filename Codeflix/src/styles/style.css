@@ -1,308 +1,497 @@
-/* Fuente cinematográfica */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap'); /* Importa fuente Cinzel para títulos */
+/* ================================
+   1. FUENTES Y TIPOGRAFÍA
+================================ */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
 
-/* Estilos generales del body */
 body {
-  background-color: #000; /* Fondo negro */
-  color: #fff; /* Texto blanco por defecto */
-  font-family: Arial, sans-serif; /* Fuente por defecto */
-  text-align: center; /* Texto centrado en bloques por defecto */
-  margin: 0; /* Elimina margen por defecto */
-  padding: 0; /* Elimina padding por defecto */
-
+  background-color: #000;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
 }
 
-/* Cabecera fija */
-header {
-  background: #111; /* Fondo oscuro */
-  padding: 1rem; /* Espaciado interno */
-  position: sticky; /* Fija en la parte superior al hacer scroll */
-  top: 0; /* Arriba */
-  z-index: 3000; /* Encima de otros elementos */
+h1, h2, h3 {
+  font-family: "Cinzel", serif;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin: 1rem 0;
 }
 
-/* Estilos para títulos principales */
-h1,
+h1 {
+  font-size: 3rem;
+  background: linear-gradient(90deg, #ff2b2b, #6b00ff); /* rojo sangriento → morado oscuro */
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
 h2 {
-  font-family: "Cinzel", serif; /* Fuente decorativa */
-  text-transform: uppercase; /* Mayúsculas */
-  letter-spacing: 1.5px; /* Espaciado de letras */
-  margin-bottom: 1rem; /* Margen inferior */
-  background: linear-gradient(90deg, #b86bff, #ff7b00); /* Degradado */
-  /* Morado → Naranja */
-  -webkit-background-clip: text; /* Aplica degradado sólo al texto */
-  color: transparent; /* Texto transparente para ver el degradado */
-  /* El degradado se aplica como relleno del texto */
+  font-size: 2rem;
+  background: linear-gradient(90deg, #ff2b2b, #6b00ff);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+h2.section-title {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 0.3rem;
+}
+
+h2.section-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #b86bff, #ff7b00);
+  border-radius: 2px;
+}
+
+h3 {
+  font-size: 1.5rem;
+  color: #ffd9d9;
+}
+
+section {
+  padding: 2rem 1rem;
+}
+
+p {
+  color: #ddd;
+  line-height: 1.6;
+  max-width: 700px;
+  margin: 0.5rem auto;
 }
 
 .codeflix-brand-banner {
-  text-align: center; /* Centrado */
-  margin: 2.5rem 0; /* Margen vertical */
-  font-family: "Cinzel", serif; /* Fuente decorativa */
-  letter-spacing: 2px; /* Espaciado */
-  font-size: 2rem; /* Tamaño grande */
-  color: transparent; /* Texto con degradado */
+  text-align: center;
+  margin: 2.5rem 0;
+  font-family: "Cinzel", serif;
+  letter-spacing: 2px;
+  font-size: 2rem;
+  color: transparent;
   background: linear-gradient(90deg, #b86bff, #ff7b00);
   -webkit-background-clip: text;
-  font-weight: 700; /* Negrita */
+  font-weight: 700;
 }
 
 .codeflix-brand-banner small {
-  display: block; /* Mostrar en bloque */
-  font-size: 0.9rem; /* Tamaño pequeño */
-  color: #bbb; /* Color gris para subtítulo */
-  margin-top: 6px; /* Separación superior */
+  display: block;
+  font-size: 0.9rem;
+  color: #bbb;
+  margin-top: 6px;
 }
 
-/* Aumentar solo el logo en la página principal (no afecta búsqueda ni otros headers) */
-.home header h1 {
-  font-size: 3rem; /* Tamaño mayor para el logo en home */
-  margin: 0.2rem 0 1rem 0; /* Ajuste de márgenes para evitar empujar elementos */
+/* ================================
+   2. HEADER Y LAYOUT GENERAL
+================================ */
+header {
+  background: #111;
+  padding: 1.5rem 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 3000;
+  border-bottom: 2px solid #330000;
 }
 
-/* Contenedor que envuelve cada carrusel */
+header h1 {
+  margin-bottom: 1.5rem;
+  font-size: 2.5rem;
+}
+
+header .search-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+  position: relative;
+}
+
+header .search-row input#search {
+  width: 280px;
+  max-width: 100%;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #333;
+  background: #0b0b0b;
+  color: #fff;
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+
+header .search-row input#search:focus {
+  border-color: #ff4b4b;
+  box-shadow: 0 0 8px #ff4b4b;
+  outline: none;
+}
+
+#filters-inline {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#filters-inline label {
+  color: #ffd9d9;
+  font-size: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+#filters-inline select {
+  padding: 4px 6px;
+  border-radius: 6px;
+  background: #220000;
+  color: #fff;
+  border: 1px solid #333;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#filters-inline select:hover {
+  border-color: #ff4b4b;
+}
+
+/* Panel de filtros y resultados */
+.filters-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  width: 90%;
+  margin: 12px auto;
+  padding: 12px 16px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 8px;
+}
+
+.filters-left { flex: 1; text-align: left; }
+.filters-right { width: 220px; text-align: right; }
+
+#results-summary {
+  font-weight: 700;
+  color: #ffd9d9;
+}
+
+#results-summary button.clear-filters {
+  margin-left: 8px;
+  padding: 4px 8px;
+  border: 1px solid #ff4b4b;
+  border-radius: 6px;
+  background: #330000;
+  color: #ffd9d9;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#results-summary button.clear-filters:hover {
+  background: #440000;
+  color: #fff;
+}
+/* ================================
+   3. TAGS – Ajuste final
+================================*/
+.tags-inline {
+  position: relative;
+  display: inline-block;
+}
+
+.tags-toggle {
+  display: inline-flex;
+  align-items: center;  /* centra verticalmente texto y flecha */
+  gap: 6px;
+  padding: 6px 12px;
+  background: #111;
+  color: #ffd9d9;
+  border: 1px solid #333;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+  font-size: 0.95rem;
+  font-weight: 500;
+  position: relative;
+}
+
+.tags-toggle:hover {
+  background: #222;
+  color: #fff;
+}
+
+/* Flecha Unicode alineada */
+/* Flecha dinámica antes del texto del botón */
+.tags-toggle::before {
+  content: '▾';               /* flecha hacia abajo */
+  font-size: 0.85rem;
+  color: #ffd9d9;
+  display: inline-block;
+  margin-right: 6px;          /* espacio entre la flecha y el texto */
+  vertical-align: middle;     
+  transition: transform 0.3s, color 0.3s;
+}
+
+/* Rotación al abrir */
+.tags-toggle.open::before {
+  transform: rotate(180deg);  /* flecha hacia arriba */
+  color: #fff;                /* opcional: cambia color al abrir */
+}
+
+
+/* Contenedor desplegable */
+.tags-container {
+  margin-top: 8px;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 320px;
+  max-height: 240px;
+  overflow-y: auto;
+  background: rgba(0,0,0,0.95);
+  border: 1px solid #222;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  z-index: 100;
+}
+
+.tags-container.hidden { display: none; }
+
+.tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tags-list label {
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: #ffb3b3;
+  background: #220000;
+  padding: 2px 8px;
+  border-radius: 12px;
+  transition: all 0.2s;
+}
+
+.tags-list label:hover {
+  background: #330000;
+  color: #fff;
+}
+
+/* ================================
+   4. CARRUSEL
+================================ */
 .carousel-wrapper {
-  position: relative; /* Para posicionar botones */
-  display: flex; /* Flexbox */
-  align-items: center; /* Centrado vertical */
-  justify-content: center; /* Centrado horizontal */
-  margin: 1.5rem auto; /* Centrado con margen */
-  width: 80%; /* Ancho relativo */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1.5rem auto;
+  width: 80%;
+  overflow: hidden;
 }
 
 .carousel-container {
-  display: flex; /* Filas horizontales */
-  overflow-x: auto; /* Scroll horizontal */
-  scroll-behavior: smooth; /* Scroll suave */
-  gap: 15px; /* Espacio entre items */
-  width: 80%; /* Ancho */
-  padding: 10px; /* Relleno interno */
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  gap: 15px;
+  width: 100%;
+  padding: 10px;
 }
 
-.carousel-container::-webkit-scrollbar {
-  display: none; /* Oculta scrollbar en WebKit */
-  /* sin scroll visible */
-}
-
-.carousel-container img {
-  width: 180px; /* Ancho de póster */
-  height: 260px; /* Alto de póster */
-  border-radius: 10px; /* Bordes redondeados */
-  transition: transform 0.3s; /* Animación al hover */
-  cursor: pointer; /* Cursor clickable */
-}
-
-.carousel-container img:hover {
-  transform: scale(1.1); /* Zoom al pasar el ratón */
-}
+.carousel-container::-webkit-scrollbar { display: none; }
 
 .arrow {
-  background: rgba(0, 0, 0, 0.6); /* Fondo semitransparente para flechas */
-  color: white; /* Color de flecha */
-  border: none; /* Sin borde */
-  font-size: 2rem; /* Tamaño grande */
-  padding: 10px; /* Relleno */
-  cursor: pointer; /* Cursor */
-  border-radius: 50%; /* Circular */
-  transition: background 0.3s; /* Transición al hover */
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  font-size: 2rem;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background 0.3s;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
 }
 
-.arrow:hover {
-  background: rgba(255, 255, 255, 0.3); /* Fondo claro al hover */
-}
+.arrow:hover { background: rgba(255, 255, 255, 0.3); }
+.arrow.left { left: 0; }
+.arrow.right { right: 0; }
 
-/* layout del carrusel interno: los .card deben alinearse en fila */
 .carousel {
-  display: flex; /* Fila horizontal */
-  gap: 15px; /* Separación entre cards */
-  align-items: flex-start; /* Alineación superior */
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
 }
 
-.card {
-  min-width: 180px; /* Ancho mínimo para mantener diseño */
-  /* mismo ancho que las imágenes para que no se colapsen */
-  flex: 0 0 auto; /* No crecer ni encoger */
-  /* evitar que se encojan o expandan */
-  text-align: center; /* Centrado del contenido */
+/* ================================
+   5. TARJETAS
+================================ */
+.card,
+.movie-small {
+  width: 180px;           /* ancho fijo */
+  flex: 0 0 auto;
+  text-align: center;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s;
+  display: flex;
+  flex-direction: column;
 }
 
-.card img {
-  width: 100%; /* Imagen ocupa todo el contenedor */
-  height: 260px; /* Alto fijo */
-  object-fit: cover; /* Recorta proporcionalmente */
-  border-radius: 10px; /* Bordes redondeados */
+.card img,
+.movie-small img {
+  aspect-ratio: 180 / 260; /* fuerza la proporción exacta */
+  width: 100%;
+  object-fit: cover;
+  border-radius: 10px;
 }
 
-/* estilos para la página de detalle de película */
+.card-title,
+.movie-small-title {
+  margin-top: 6px;
+  color: #fff;
+  font-size: 0.95rem;
+}
+
+/* ================================
+   6. DETALLE DE PELÍCULA
+================================ */
 .movie-detail {
-  max-width: 1000px; /* Ancho máximo de la ficha */
-  margin: 1.5rem auto; /* Centrado y margen */
-  padding: 1rem; /* Espaciado interno */
-  text-align: left; /* Texto alineado a la izquierda */
+  max-width: 1000px;
+  margin: 1.5rem auto;
+  padding: 1rem;
+  text-align: left;
 }
 
 .movie-detail .back {
-  display: inline-block; /* Mostrar como inline-block */
-  margin-bottom: 0.5rem; /* Espaciado inferior */
-  color: #fff; /* Color del enlace */
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  color: #fff;
 }
 
 .movie-detail .meta {
-  display: flex; /* Layout en dos columnas: poster + info */
-  gap: 1rem; /* Espaciado entre columnas */
-  align-items: flex-start; /* Alineación superior */
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
 }
 
 .movie-detail .poster {
-  width: 220px; /* Ancho del poster */
-  height: 320px; /* Alto del poster */
-  object-fit: cover; /* Ajuste de la imagen */
-  border-radius: 6px; /* Bordes redondeados */
+  width: 220px;
+  height: 320px;
+  object-fit: cover;
+  border-radius: 6px;
 }
 
-.movie-detail .info h1 {
-  margin: 0 0 0.5rem 0; /* Margen específico */
-  color: #ff8080; /* Color del título */
-}
-
-.movie-detail .synopsis {
-  color: #ddd; /* Color de la sinopsis */
-}
+.movie-detail .info h1 { margin: 0 0 0.5rem 0; color: #ff8080; }
+.movie-detail .synopsis { color: #ddd; }
 
 .tag {
-  background: #222; /* Fondo para tags */
-  color: #ffb3b3; /* Color del texto */
-  padding: 2px 8px; /* Espaciado */
-  border-radius: 12px; /* Bordes redondeados */
-  margin-right: 6px; /* Separación derecha */
-  font-size: 0.9rem; /* Tamaño de fuente */
+  background: #222;
+  color: #ffb3b3;
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin-right: 6px;
+  font-size: 0.9rem;
 }
 
-.player {
-  margin-top: 1rem; /* Separación superior */
-  display: block; /* Mostrar en bloque para poder centrar título y video debajo */
-  text-align: center; /* Centrar contenido dentro del player */
-}
+/* ================================
+   7. TERRORÍMETRO Y NIVELES
+================================ */
+.player { margin-top: 1rem; display: flex; justify-content: center; }
 
-.player h3 {
-  text-align: center; /* Centrar la palabra 'Película' */
-  margin: 0 0 0.6rem 0; /* Espaciado inferior */
-}
+.levels { margin-top: 0.6rem; color: #ffd1d1; }
+.levels strong { color: #fff; margin-right: 4px; }
 
-.player video {
-  display: block; /* Asegura que el video se muestre en bloque */
-  margin: 0.5rem auto; /* Centra el video horizontalmente y separa verticalmente */
-  max-width: 100%;
-  height: auto;
-}
-
-.levels {
-  margin-top: 0.6rem; /* Separación */
-  color: #ffd1d1; /* Color para niveles */
-}
-
-.levels strong {
-  color: #fff; /* Color para labels fuertes */
-  margin-right: 4px; /* Espacio a la derecha */
-}
-
-/* Estilos para el terrorímetro en la ficha de película */
 .terrorimeter {
-  display: flex; /* Barra + score */
+  display: flex;
   align-items: center;
-  gap: 12px; /* Separación */
-  margin: 0.5rem 0 0.8rem 0; /* Margen específico */
+  gap: 12px;
+  margin: 0.5rem 0 0.8rem 0;
 }
 
 .terror-bar {
-  width: 220px; /* Ancho de la barra */
-  height: 12px; /* Alto */
-  background: rgba(255, 255, 255, 0.06); /* Fondo suave */
-  border-radius: 8px; /* Bordes */
-  overflow: hidden; /* Oculta exceso */
+  width: 220px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .terror-fill {
-  height: 100%; /* Rellena la barra */
-  background: linear-gradient(90deg, #ff7b00, #b86bff); /* Degradado */
-  border-radius: 8px 0 0 8px; /* Bordes redondeados a la izquierda */
-  transition: width 400ms ease; /* Animación suave al cambiar width */
+  height: 100%;
+  background: linear-gradient(90deg, #ff7b00, #b86bff);
+  border-radius: 8px 0 0 8px;
+  transition: width 400ms ease;
 }
 
 .terror-score {
-  color: #ffd9d9; /* Color del texto del score */
-  font-weight: 600; /* Negrita ligera */
-  font-size: 0.95rem; /* Tamaño */
+  color: #ffd9d9;
+  font-weight: 600;
+  font-size: 0.95rem;
 }
 
-/* Estilos para modal de valoración (rating) */
+/* ================================
+   8. MODALES Y RATING
+================================ */
 .rating-overlay {
-  position: fixed; /* Fija sobre la pantalla */
-  inset: 0; /* Cubre toda la pantalla */
-  background: rgba(0, 0, 0, 0.6); /* Fondo semi-transparente */
-  display: flex; /* Centrado del modal */
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000; /* Encima de todo */
+  z-index: 1000;
 }
 
 .rating-box {
-  background: #0b0b0b; /* Fondo del cuadro */
-  padding: 18px; /* Espaciado interior */
-  border-radius: 8px; /* Bordes */
-  width: 320px; /* Ancho fijo */
-  color: #fff; /* Texto blanco */
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7); /* Sombra */
+  background: #0b0b0b;
+  padding: 18px;
+  border-radius: 8px;
+  width: 320px;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.7);
 }
 
-.rating-box h3 {
-  margin-top: 0; /* Quita margen superior */
-  color: #ff9f6b; /* Color del título */
-}
-
-.rating-box label {
-  display: block; /* Mostrar en bloque */
-  margin: 8px 0; /* Margen vertical */
-  font-size: 0.95rem; /* Tamaño */
-}
-
+.rating-box h3 { margin-top: 0; color: #ff9f6b; }
+.rating-box label { display: block; margin: 8px 0; font-size: 0.95rem; }
 .rating-box input[type="number"] {
-  width: 64px; /* Ancho del input numérico */
-  margin-left: 8px; /* Margen izquierdo */
-  padding: 6px; /* Padding */
-  border-radius: 6px; /* Bordes */
-  background: #000; /* Fondo */
-  color: #fff; /* Texto */
-  border: 1px solid #333; /* Borde */
+  width: 64px;
+  margin-left: 8px;
+  padding: 6px;
+  border-radius: 6px;
+  background: #000;
+  color: #fff;
+  border: 1px solid #333;
 }
 
 .rating-actions {
-  display: flex; /* Botones alineados a la derecha */
-  gap: 8px; /* Separación entre botones */
-  justify-content: flex-end; /* Alineación */
-  margin-top: 10px; /* Separación superior */
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 10px;
 }
 
 .rating-actions button {
-  padding: 8px 10px; /* Espaciado del botón */
-  border-radius: 6px; /* Bordes */
-  border: none; /* Sin borde */
-  cursor: pointer; /* Cursor pointer */
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
 }
 
-.rating-actions #rating-send {
-  background: #ff4040; /* Botón enviar en rojo */
-  color: #fff; /* Texto blanco */
-}
-
-.rating-actions #rating-cancel {
-  background: #222; /* Botón cancelar oscuro */
-  color: #fff; /* Texto blanco */
-  border: 1px solid #333; /* Borde sutil */
-}
+.rating-actions #rating-send { background: #ff4040; color: #fff; }
+.rating-actions #rating-cancel { background: #222; color: #fff; border: 1px solid #333; }
 
 .simulate-btn {
-  padding: 6px 10px; /* Botón simular fin */
+  padding: 6px 10px;
   border-radius: 6px;
   background: #333;
   color: #fff;
@@ -310,334 +499,230 @@ h2 {
   cursor: pointer;
 }
 
-/* Estilos para el modal del trailer */
-.trailer-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.75);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-}
-.trailer-box {
-  position: relative;
-  background: #000;
-  padding: 12px;
-  border-radius: 8px;
-  max-width: 95%;
-  max-height: 92%;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.7);
-}
-.trailer-content iframe,
-.trailer-content video {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
-.trailer-close {
-  position: absolute;
-  right: 8px;
-  top: 6px;
-  background: transparent;
-  color: #fff;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-}
-
-/* Botón cerrar destacado: círculo con contraste y efecto hover */
-.trailer-close {
-  width: 34px;
-  height: 34px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255,255,255,0.06);
-  border-radius: 50%;
-  font-size: 1.1rem;
-  line-height: 1;
-}
-.trailer-close:hover {
-  background: rgba(255,255,255,0.12);
-}
-
-/* Botón Cerrar inferior dentro del modal */
-.trailer-close-bottom {
-  padding: 8px 14px;
-  background: linear-gradient(90deg, #b86bff, #ff7b00); /* mismo degradado que el logo */
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 700;
-}
-.trailer-close-bottom:hover {
-  filter: brightness(0.95);
-}
-
-/* Ajuste específico para el botón del trailer (alinearlo a la izquierda sin afectar otros botones) */
-.trailer-btn {
-  margin-left: 0;
-  padding-left: 6px;
-}
-
-/* Botón Ver trailer con mismo degradado que el logo */
-.trailer-btn {
-  background: linear-gradient(90deg, #b86bff, #ff7b00);
-  color: #fff;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-weight: 700;
-}
-.trailer-btn:hover {
-  filter: brightness(0.95);
-}
-
-/* Estilos para control de estrellas */
+/* ================================
+   9. ESTRELLAS (RATING)
+================================ */
 .star-rating {
-  display: inline-block; /* Contenedor inline para estrellas */
-  margin-left: 10px; /* Separación respecto al label */
+  display: inline-block;
+  margin-left: 10px;
 }
 
 .star {
-  font-size: 1.4rem; /* Tamaño estrella */
-  color: #444; /* Color por defecto */
-  margin: 0 2px; /* Margen horizontal */
-  cursor: pointer; /* Cursor */
-  user-select: none; /* Evita seleccionar texto */
+  font-size: 1.4rem;
+  color: #444;
+  margin: 0 2px;
+  cursor: pointer;
+  user-select: none;
 }
 
 .star:hover,
-.star:focus {
-  color: #ffb66b; /* Color al hover/focus */
-  outline: none; /* Quita outline por defecto */
-}
-
-.star.selected {
-  color: #ff9f6b; /* Color cuando está seleccionada */
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6); /* Sombra */
-}
+.star:focus { color: #ffb66b; outline: none; }
+.star.selected { color: #ff9f6b; text-shadow: 0 1px 0 rgba(0,0,0,0.6); }
 
 .rating-field {
-  display: flex; /* Alinea label y control */
+  display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 8px 0; /* Separación */
+  margin: 8px 0;
 }
 
 .rating-label {
-  width: 120px; /* Ancho fijo para labels */
-  color: #ddd; /* Color gris */
+  width: 120px;
+  color: #ddd;
 }
 
-.comments-section {
-  margin-top: 1.5rem; /* Separación superior */
-}
+/* ================================
+   10. COMENTARIOS
+================================ */
+.comments-section { margin-top: 1.5rem; }
 
 .comment {
-  background: rgba(255, 255, 255, 0.03); /* Fondo sutil */
-  padding: 0.6rem; /* Padding */
-  border-radius: 6px; /* Bordes redondeados */
-  margin-bottom: 0.6rem; /* Separación entre comentarios */
+  background: rgba(255, 255, 255, 0.03);
+  padding: 0.6rem;
+  border-radius: 6px;
+  margin-bottom: 0.6rem;
 }
 
-.comment b {
-  color: #fff; /* Nombre en blanco */
-}
-
-.comment small {
-  color: #bbb; /* Fecha en gris */
-  margin-left: 8px; /* Separación izquierda */
-}
+.comment b { color: #fff; }
+.comment small { color: #bbb; margin-left: 8px; }
 
 .comment-form {
-  display: flex; /* Formulario en columna */
+  display: flex;
   flex-direction: column;
-  gap: 0.5rem; /* Espaciado */
+  gap: 0.5rem;
 }
 
 .comment-form input,
 .comment-form textarea {
-  width: 100%; /* Ancho completo */
-  padding: 8px; /* Padding */
-  border-radius: 6px; /* Bordes */
-  border: 1px solid #333; /* Borde */
-  background: #000; /* Fondo */
-  color: #fff; /* Texto */
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #333;
+  background: #000;
+  color: #fff;
 }
 
 .comment-form button {
-  width: 120px; /* Ancho botón */
-  padding: 8px; /* Padding */
-  border-radius: 6px; /* Bordes */
-  background: #ff4040; /* Fondo rojo */
-  color: #fff; /* Texto blanco */
-  border: none; /* Sin borde */
-  cursor: pointer; /* Cursor */
+  width: 120px;
+  padding: 8px;
+  border-radius: 6px;
+  background: #ff4040;
+  color: #fff;
+  border: none;
+  cursor: pointer;
 }
 
-/* Estilos para la lista paginada en la página principal */
+/* ================================
+   11. GRID DE PELÍCULAS
+================================ */
 .movies-grid {
-  display: grid; /* Grid responsivo */
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Columnas adaptativas */
-  gap: 12px; /* Separación */
-  margin: 1rem 0; /* Margen vertical */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+  margin: 1rem 0;
 }
 
 .movie-small {
-  cursor: pointer; /* Clickable */
-  text-align: center; /* Centrado */
-  padding: 6px; /* Padding */
-  background: rgba(255, 255, 255, 0.02); /* Fondo sutil */
-  border-radius: 6px; /* Bordes */
+  cursor: pointer;
+  text-align: center;
+  padding: 6px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 6px;
 }
 
 .movie-small img {
-  width: 100%; /* Imagen responsiva */
-  height: 200px; /* Alto fijo */
-  object-fit: cover; /* Ajuste */
-  border-radius: 6px; /* Bordes */
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 6px;
 }
 
 .movie-small-title {
-  margin: 6px 0 0 0; /* Margen */
-  font-size: 0.95rem; /* Tamaño */
-  color: #fff; /* Color */
+  margin: 6px 0 0 0;
+  font-size: 0.95rem;
+  color: #fff;
 }
 
 .pagination {
-  display: flex; /* Paginación en fila */
-  gap: 6px; /* Espaciado */
-  justify-content: center; /* Centrado */
-  margin-bottom: 1.2rem; /* Margen inferior */
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 1.2rem;
 }
 
 .page-btn {
-  padding: 6px 10px; /* Padding del botón */
-  background: #111; /* Fondo oscuro */
-  color: #fff; /* Texto blanco */
-  border-radius: 6px; /* Bordes */
-  border: 1px solid #333; /* Borde */
-  cursor: pointer; /* Cursor pointer */
+  padding: 6px 10px;
+  background: #111;
+  color: #fff;
+  border-radius: 6px;
+  border: 1px solid #333;
+  cursor: pointer;
 }
 
-.page-btn[disabled] {
-  opacity: 0.4; /* Opacidad cuando está deshabilitado */
-  cursor: default; /* Cursor por defecto */
-}
+.page-btn[disabled] { opacity: 0.4; cursor: default; }
+.page-btn.active { background: #ff4040; border-color: #ff4040; }
 
-.page-btn.active {
-  background: #ff4040; /* Botón activo en rojo */
-  border-color: #ff4040; /* Borde en rojo */
-}
-
-/* Estilos para los nuevos controles de filtro */
-.search-row { display:flex; align-items:center; gap:12px; justify-content:center; }
-/* Ajuste: hacer que la búsqueda y el toggle de tags estén alineados y el desplegable se posicione cerca */
-.search-row { position:relative; display:flex; align-items:center; gap:12px; justify-content:center; }
-.search-row input#search { width:380px; padding:8px 10px; border-radius:6px; border:1px solid #333; background:#0b0b0b; color:#fff; }
-#filters-inline { display:flex; gap:8px; align-items:center; }
-#filters-inline label { color:#ddd; font-size:0.9rem; }
-#filters-inline select { margin-left:6px; padding:4px 6px; border-radius:6px; background:#000; color:#fff; border:1px solid #333; }
-
-.filters-panel { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; width:90%; margin:12px auto; padding:10px 12px; background:rgba(255,255,255,0.03); border-radius:8px; }
-.filters-left { flex:1; text-align:left; }
-.filters-right { width:220px; text-align:right; }
-.tags-list { display:flex; flex-wrap:wrap; gap:8px; }
-.tag-checkbox { background:rgba(255,255,255,0.02); padding:6px 8px; border-radius:6px; font-size:0.9rem; }
-#results-summary { font-weight:700; color:#ffd9d9; }
-
-/* Desplegable de tags */
-.tags-toggle { display:inline-flex; align-items:center; gap:8px; padding:6px 10px; background:#111; color:#fff; border:1px solid #333; border-radius:6px; cursor:pointer; }
-.tags-toggle .arrow { display:inline-block; transition: transform 200ms ease; }
-.tags-toggle.open .arrow { transform: rotate(180deg); }
-.tags-container { margin-top:8px; }
-.tags-container.hidden { display:none; }
-.tags-list { max-height:240px; overflow:auto; padding:6px; }
-
-/* Posicionar el desplegable relativo al contenedor de búsqueda */
-.search-row .tags-inline { position: relative; }
-.search-row .tags-inline .tags-container { position: absolute; top: calc(100% + 8px); right: 0; width: 320px; background: rgba(0,0,0,0.95); border:1px solid #222; padding:10px; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,0.6); z-index:9999; }
-
-/* Botón limpiar filtros */
-.clear-filters { margin-left:12px; padding:6px 10px; background:#222; color:#fff; border:1px solid #333; border-radius:6px; cursor:pointer; }
-.clear-filters:hover { background:#2b2b2b; }
-
-/* estilo del formulario*/
+/* ================================
+   12. ABOUT / CONTACT
+================================ */
 .about-section {
-  padding: 50px 20px; /* Padding del bloque about */
-  background: #0b0010; /* Fondo oscuro */
-  text-align: center; /* Centrado */
-  border-top: 2px solid #3a003a; /* Línea superior */
+  padding: 50px 20px;
+  background: #0b0010;
+  text-align: center;
+  border-top: 2px solid #3a003a;
 }
 
-.about-section h2 {
-  color: #ff2e93; /* Color del título about */
-  margin-bottom: 30px; /* Margen inferior */
-}
+.about-section h2 { color: #ff2e93; margin-bottom: 30px; }
 
 .about-grid {
-  display: grid; /* Grid responsive */
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Columnas adaptativas */
-  gap: 25px; /* Separación */
-  max-width: 1100px; /* Ancho máximo */
-  margin: 0 auto; /* Centrado */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 .about-card {
-  background: rgba(20, 0, 25, 0.85); /* Fondo card */
-  border: 1px solid #550055; /* Borde morado */
+  background: rgba(20,0,25,0.85);
+  border: 1px solid #550055;
   border-radius: 12px;
-  padding: 20px; /* Padding interno */
-  text-align: left; /* Texto a la izquierda */
+  padding: 20px;
+  text-align: left;
 }
 
-.about-card h3 {
-  color: #ff2e93; /* Título en rosa */
-  margin-bottom: 10px; /* Margen inferior */
-}
-
-.about-card p {
-  color: #ddd; /* Color del texto */
-  line-height: 1.5; /* Interlineado */
-}
+.about-card h3 { color: #ff2e93; margin-bottom: 10px; }
+.about-card p { color: #ddd; line-height: 1.5; }
 
 .contact-form {
-  display: grid; /* Formulario en grid */
-  gap: 12px; /* Espaciado */
-  margin-top: 10px; /* Margen superior */
+  display: grid;
+  gap: 12px;
+  margin-top: 10px;
 }
 
 .contact-form input,
 .contact-form textarea {
-  width: 100%; /* Ancho completo */
-  background: #140016; /* Fondo */
-  color: #fff; /* Texto */
-  border: 1px solid #6a006a; /* Borde */
-  border-radius: 6px; /* Bordes */
-  padding: 8px; /* Padding */
+  width: 100%;
+  background: #140016;
+  color: #fff;
+  border: 1px solid #6a006a;
+  border-radius: 6px;
+  padding: 8px;
 }
 
 .contact-form input:focus,
 .contact-form textarea:focus {
-  border-color: #ff2e93; /* Borde al focus */
-  box-shadow: 0 0 3px #ff2e93; /* Sombra al focus */
+  border-color: #ff2e93;
+  box-shadow: 0 0 3px #ff2e93;
 }
 
 .contact-form button {
-  background: #ff2e93; /* Botón enviar */
-  color: #0b0010; /* Texto oscuro */
-  font-weight: bold; /* Negrita */
-  padding: 10px; /* Padding */
-  border: none; /* Sin borde */
-  border-radius: 8px; /* Bordes redondeados */
-  cursor: pointer; /* Cursor */
+  background: #ff2e93;
+  color: #0b0010;
+  font-weight: bold;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 .contact-message {
-  color: #8affd1; /* Color de mensajes de contacto */
-  margin-top: 5px; /* Separación superior */
-  min-height: 18px; /* Altura mínima para evitar salto de layout */
+  color: #8affd1;
+  margin-top: 5px;
+  min-height: 18px;
 }
+
+/* ================================
+   13. BOTONES LIMPIAR FILTROS
+================================ */
+.clear-filters {
+  margin-left: 12px;
+  padding: 6px 10px;
+  background: #222;
+  color: #fff;
+  border: 1px solid #333;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.clear-filters:hover { background: #2b2b2b; }
+
+/* Carrusel y sección de todas las películas */
+.card, .movie-small {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+/* Hover: agrandar y sombra */
+.card:hover, .movie-small:hover {
+  transform: scale(1.05); /* zoom leve */
+  box-shadow: 0 10px 20px rgba(255, 0, 0, 0.6), 0 0 10px rgba(255, 0, 0, 0.4); 
+  /* efecto sangriento/terror */
+  z-index: 2; /* asegurar que sobresalga sobre otros elementos */
+}
+
+.card:hover .card-title,
+.movie-small:hover .movie-small-title {
+  color: #ff2b2b; /* rojo sangre */
+  text-shadow: 0 0 5px #ff2b2b, 0 0 10px #ff7b00;
+}
+

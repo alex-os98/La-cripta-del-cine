@@ -7,34 +7,41 @@
 </head>
 <body class="home">
   <header>
-    <h1>CodeFlix</h1> <!-- Título visible en la cabecera -->
-    <div class="search-row"> <!-- Fila con búsqueda y filtros -->
-      <input id="search" placeholder="Buscar por título o descripción..." /> <!-- Input de búsqueda -->
+    <h1>CodeFlix</h1>
+    <div class="search-row">
+      <input id="search" placeholder="Buscar por título o descripción..." />
       <div id="filters-inline"> <!-- Contenedor inline de filtros numéricos -->
-        <label>Gore ≥ <select id="filter-gore"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label> <!-- Select gore -->
-        <label>Miedo ≥ <select id="filter-scares"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label> <!-- Select miedo -->
-        <label>Jumps ≥ <select id="filter-jumps"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label> <!-- Select jumps -->
-        <label>Suspenso ≥ <select id="filter-suspense"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label> <!-- Select suspenso -->
+        <label>GORE <select id="filter-gore"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label> <!-- Select gore -->
+        <label>MIEDO <select id="filter-scares"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label> <!-- Select miedo -->
+        <label>JUMPS <select id="filter-jumps"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label> <!-- Select jumps -->
+        <label>SUSPENSO <select id="filter-suspense"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label> <!-- Select suspenso -->
       </div>
-      <div class="tags-inline"> <!-- Contenedor para filtros por tags -->
-        <button id="tags-toggle" class="tags-toggle">Seleccionar por tags <span class="arrow">▾</span></button> <!-- Botón toggle de tags -->
-        <div id="tags-container" class="tags-container hidden"> <!-- Contenedor desplegable de tags, por defecto oculto -->
-          <div id="tags-list" class="tags-list">Cargando tags...</div> <!-- Lista de tags que se llenará dinámicamente -->
+      <div class="tags-inline">
+        <button id="tags-toggle" class="tags-toggle">
+          Seleccionar por tags
+        </button>
+        <div id="tags-container" class="tags-container hidden">
+          <div id="tags-list">Cargando tags...</div>
         </div>
       </div>
     </div>
   </header>
-  <section id="filters-panel" class="filters-panel"> <!-- Panel superior con resumen y controles -->
+
+  <section id="filters-panel" class="filters-panel">
     <div class="filters-left">
-      <h3>&nbsp;</h3> <!-- Espacio reservado (diseño) -->
+      <h3>&nbsp;</h3>
     </div>
     <div class="filters-right">
-      <div id="results-summary">Se encontraron <span id="results-count">0</span> películas <button id="clear-filters" class="clear-filters">Limpiar filtros</button></div> <!-- Resumen de resultados y botón limpiar -->
+      <div id="results-summary">
+        Se encontraron <span id="results-count">0</span> películas
+        <button id="clear-filters" class="clear-filters">Limpiar filtros</button>
+      </div>
     </div>
   </section>
 
+
   <main>
-    <h2>🎥 Películas Recomendadas</h2> <!-- Título del carrusel recomendado -->
+    <h2>Películas Recomendadas</h2> <!-- Título del carrusel recomendado -->
     <div class="carousel-wrapper"> <!-- Wrapping del carrusel recomendado -->
       <button class="arrow left" data-carousel="recommended">❮</button> <!-- Botón anterior -->
       <div class="carousel-container" id="carousel-recommended"></div> <!-- Contenedor donde se inyectan tarjetas -->
@@ -93,7 +100,7 @@
         <article class="about-card">
           <h3>¿Quiénes somos?</h3>
           <p>
-            Somos un equipo apasionado por el cine de terror. Creamos La Cripta del Cine
+            Somos un equipo apasionado por el cine de terror. Creamos CodeFlix
             como un proyecto para explorar, catalogar y compartir lo mejor del horror en todas sus vertientes.
           </p>
         </article>

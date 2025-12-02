@@ -1,92 +1,146 @@
-// Archivo: src/scripts/main.js
-// Utilidad para obtener JSON desde una URL usando fetch
+// ================================
+// UTILIDADES
+// ================================
+
+// Fetch JSON desde un endpoint
 async function fetchJSON(url) {
-  const r = await fetch(url); // Realiza la petición
-  return r.json(); // Devuelve el JSON parseado
+  const r = await fetch(url);
+  return r.json();
 }
 
-// Escapar texto para HTML (pequeña utilidad)
+// Escapar texto para HTML (previene inyección)
 function escapeHtml(s) {
-  if (!s) return ''; // Si no hay valor, devolver cadena vacía
-  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); // Reemplaza caracteres peligrosos
+  if (!s) return '';
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
-// Construir lista única de tags y renderizar casillas
+// ================================
+// FILTROS Y TAGS
+// ================================
+
+// Construir lista única de tags y renderizar checkboxes
 function renderTagsFilter() {
-  const tagsEl = document.getElementById('tags-list'); // Elemento donde van las casillas
-  if (!tagsEl) return; // Si no existe, salir
-  const tags = new Set(); // Usamos Set para evitar duplicados
-  allMovies.forEach(m => (m.tags || []).forEach(t => { if (t) tags.add(String(t).trim()); })); // Recolecta tags de todas las películas
-  const arr = Array.from(tags).sort((a, b) => a.localeCompare(b)); // Convierte a array y ordena
-  if (!arr.length) { tagsEl.innerHTML = '<em>No hay tags</em>'; return; } // Si no hay tags, mostrar mensaje
-  // NOTA: el siguiente bloque usa template literals multilínea para generar HTML; no se insertan comentarios dentro de la literal para no romper la salida HTML
+  const tagsEl = document.getElementById('tags-list');
+  if (!tagsEl) return;
+
+  const tags = new Set();
+  allMovies.forEach(m => (m.tags || []).forEach(t => { if (t) tags.add(String(t).trim()); }));
+  const arr = Array.from(tags).sort((a, b) => a.localeCompare(b));
+
+  if (!arr.length) { 
+    tagsEl.innerHTML = '<em>No hay tags</em>'; 
+    return; 
+  }
+
   tagsEl.innerHTML = arr.map(t => `
-    <label class="tag-checkbox"><input type="checkbox" value="${escapeHtml(t)}" data-tag /> ${escapeHtml(t)}</label>
-  `).join(''); // Inserta checkbox por cada tag
-  tagsEl.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.addEventListener('change', applyFilters)); // Añade listener para cambios
+    <label class="tag-checkbox">
+      <input type="checkbox" value="${escapeHtml(t)}" data-tag /> ${escapeHtml(t)}
+    </label>
+  `).join('');
+
+  tagsEl.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.addEventListener('change', applyFilters));
 }
 
-// Función central que aplica todos los filtros (texto, métricas y tags)
+// Aplicar filtros de búsqueda, métricas y tags
 function applyFilters(e) {
   try {
-    const q = (document.getElementById('search')?.value || '').trim().toLowerCase(); // Texto de búsqueda
-    const goreMin = Number(document.getElementById('filter-gore')?.value || 0); // Mínimo gore
-    const scaresMin = Number(document.getElementById('filter-scares')?.value || 0); // Mínimo scares
-    const jumpsMin = Number(document.getElementById('filter-jumps')?.value || 0); // Mínimo jumps
-    const suspMin = Number(document.getElementById('filter-suspense')?.value || 0); // Mínimo suspense
-    const selectedTags = Array.from(document.querySelectorAll('#tags-list input[type=checkbox]:checked')).map(i => i.value); // Tags seleccionados
+    const q = (document.getElementById('search')?.value || '').trim().toLowerCase();
+    const goreMin = Number(document.getElementById('filter-gore')?.value || 0);
+    const scaresMin = Number(document.getElementById('filter-scares')?.value || 0);
+    const jumpsMin = Number(document.getElementById('filter-jumps')?.value || 0);
+    const suspMin = Number(document.getElementById('filter-suspense')?.value || 0);
+    const selectedTags = Array.from(document.querySelectorAll('#tags-list input[type=checkbox]:checked')).map(i => i.value);
 
+    // Filtrar películas según criterios
     const filtered = allMovies.filter(m => {
-      const textMatch = !q || (m.title && m.title.toLowerCase().includes(q)) || (m.synopsis && m.synopsis.toLowerCase().includes(q)); // Coincidencia de texto
-      const goreOk = (typeof m.gore === 'number' ? m.gore : 0) >= goreMin; // Comprueba gore
-      const scaresOk = (typeof m.scares === 'number' ? m.scares : 0) >= scaresMin; // Comprueba scares
-      const jumpsOk = (typeof m.jumpscares === 'number' ? m.jumpscares : 0) >= jumpsMin; // Comprueba jumpscares
-      const suspOk = (typeof m.suspense === 'number' ? m.suspense : (typeof m.scares === 'number' ? m.scares : 0)) >= suspMin; // Comprueba suspense
-      const tagsOk = !selectedTags.length || (m.tags || []).some(t => selectedTags.includes(String(t))); // Comprueba tags
-      return textMatch && goreOk && scaresOk && jumpsOk && suspOk && tagsOk; // Devuelve si pasa todos los filtros
+      const textMatch = !q || (m.title && m.title.toLowerCase().includes(q)) || (m.synopsis && m.synopsis.toLowerCase().includes(q));
+      const goreOk = (typeof m.gore === 'number' ? m.gore : 0) >= goreMin;
+      const scaresOk = (typeof m.scares === 'number' ? m.scares : 0) >= scaresMin;
+      const jumpsOk = (typeof m.jumpscares === 'number' ? m.jumpscares : 0) >= jumpsMin;
+      const suspOk = (typeof m.suspense === 'number' ? m.suspense : (typeof m.scares === 'number' ? m.scares : 0)) >= suspMin;
+      const tagsOk = !selectedTags.length || (m.tags || []).some(t => selectedTags.includes(String(t)));
+      return textMatch && goreOk && scaresOk && jumpsOk && suspOk && tagsOk;
     });
 
-    const countEl = document.getElementById('results-count'); // Elemento donde se muestra la cuenta de resultados
+    const countEl = document.getElementById('results-count');
+    const filtersActive = Boolean(q) || goreMin > 0 || scaresMin > 0 || jumpsMin > 0 || suspMin > 0 || selectedTags.length > 0;
 
-    // determinar si hay filtros activos (texto, métricas o tags)
-    const filtersActive = Boolean(q) || goreMin > 0 || scaresMin > 0 || jumpsMin > 0 || suspMin > 0 || selectedTags.length > 0; // Indica si algún filtro está activo
+    // --- SIN RESULTADOS ---
+    if (filtersActive && filtered.length === 0) {
+      if (countEl) countEl.innerText = '0';
 
+      // Ocultar todos los carruseles originales
+      document.querySelectorAll('.carousel-wrapper').forEach(el => el.style.display = 'none');
+
+      // Mostrar mensaje de no resultados
+      const main = document.querySelector('main');
+      let msg = document.getElementById('no-results-message');
+      if (!msg) {
+        msg = document.createElement('div');
+        msg.id = 'no-results-message';
+        msg.style.color = '#ff4b4b';
+        msg.style.fontSize = '1.5rem';
+        msg.style.margin = '3rem 0 1.5rem 0';
+        msg.style.textAlign = 'center';
+        main.insertBefore(msg, document.getElementById('all-movies'));
+      }
+      msg.innerHTML = `No encontramos nada 😢, pero mira algo de <strong>Terror Coreano</strong> mientras tanto:`;
+
+      // Renderizar lista completa de películas
+      renderAllMovies._overrideList = null; // usar toda la lista
+      renderAllMovies(1);
+
+      // Renderizar carrusel sugerido "Terror Coreano" **debajo del mensaje**
+      let suggestionWrapper = document.getElementById('suggested-carousel-wrapper');
+      if (!suggestionWrapper) {
+        suggestionWrapper = document.createElement('div');
+        suggestionWrapper.id = 'suggested-carousel-wrapper';
+        suggestionWrapper.style.margin = '2rem auto';
+        main.insertBefore(suggestionWrapper, document.getElementById('all-movies'));
+      }
+
+      // Renderizar carrusel dentro del wrapper
+      renderCarousel("Terror Coreano", (window.G_carousels?.koreanHorror) || [], "suggested-carousel-wrapper");
+      suggestionWrapper.style.display = 'flex';
+
+      return; // Salimos de applyFilters
+    }
+
+    // quitar mensaje si existe
+    const msg = document.getElementById('no-results-message');
+    if (msg) msg.remove();
+
+    // --- HAY RESULTADOS ---
     if (filtersActive) {
-      // ocultar carruseles y sus títulos para mostrar solo resultados
+      if (countEl) countEl.innerText = String(filtered.length);
+      renderAllMovies._overrideList = filtered;
+      renderAllMovies(1);
+      renderSearchCarousel(filtered);
+
+      // ocultar carruseles originales
       document.querySelectorAll('.carousel-wrapper').forEach(el => {
-        el.style.display = 'none'; // Oculta carrusel
-        const prev = el.previousElementSibling; // Posible título H2 anterior
-        if (prev && prev.tagName === 'H2') prev.style.display = 'none'; // Oculta título si existe
+        el.style.display = 'none';
+        const prev = el.previousElementSibling;
+        if (prev && prev.tagName === 'H2') prev.style.display = 'none';
       });
-
-      if (countEl) countEl.innerText = String(filtered.length); // Actualiza número de resultados
-      renderAllMovies._overrideList = filtered; // Pasa lista filtrada como override
-      renderAllMovies(1); // Renderiza la página 1 de resultados
-
-      // actualizar sección de resultados superior
-      const main = document.querySelector('main'); // Elemento main
-      const old = document.getElementById('search-results-section'); if (old) old.remove(); // Elimina sección previa si existe
-      const sec = document.createElement('section'); // Crea nueva sección
-      sec.id = 'search-results-section'; // Asigna id
-      // NOTA: el siguiente template literal contiene HTML multilínea para mostrar resultados; no se inserta comentario dentro de la literal
-      sec.innerHTML = `<h2>Resultados (${filtered.length})</h2><div class="carousel">${filtered.map(m => `
-      <div class="card" onclick="openMovie(${m.id})">
-        <img src="${m.poster}" alt="${escapeHtml(m.title)}" />
-        <p class="card-title">${escapeHtml(m.title)}</p>
-      </div>
-    `).join('')}</div>`; // Inserta HTML con las tarjetas de resultados
-      main.insertBefore(sec, document.getElementById('all-movies'));
 
     } else {
       // restaurar carruseles y títulos
       document.querySelectorAll('.carousel-wrapper').forEach(el => {
-        el.style.display = 'flex'; // Muestra carruseles
-        const prev = el.previousElementSibling; // Posible título
-        if (prev && prev.tagName === 'H2') prev.style.display = ''; // Restaura visibilidad del título
+        el.style.display = 'flex';
+        const prev = el.previousElementSibling;
+        if (prev && prev.tagName === 'H2') prev.style.display = '';
       });
-      if (countEl) countEl.innerText = String(allMovies.length); // Muestra total de películas
-      renderAllMovies._overrideList = null; // Quita override
-      const old = document.getElementById('search-results-section'); if (old) old.remove(); // Elimina sección de resultados si existe
+
+      if (countEl) countEl.innerText = String(allMovies.length);
+      renderAllMovies._overrideList = null;
+      const old = document.getElementById('search-results-section'); if (old) old.remove();
+
       // re-renderizar carruseles originales
       renderCarousel("", (window.G_carousels && window.G_carousels.recommended) || [], "carousel-recommended");
       renderCarousel("Favoritas de Japón", (window.G_carousels && window.G_carousels.favoritesJapan) || [], "carousel-favoritesJapan");
@@ -94,222 +148,265 @@ function applyFilters(e) {
       renderCarousel("Favoritas de USA", (window.G_carousels && window.G_carousels.favoritesUSA) || [], "carousel-favoritesUSA");
       renderCarousel("Terror Coreano", (window.G_carousels && window.G_carousels.koreanHorror) || [], "carousel-koreanHorror");
       renderCarousel("Cine Extremo Francés", (window.G_carousels && window.G_carousels.frenchExtreme) || [], "carousel-frenchExtreme");
-      renderAllMovies(1); // Renderiza lista completa página 1
-      setupCarouselButtons(); // Inicializa botones de carrusel
+      renderAllMovies(1);
+      setupCarouselButtons();
     }
-  } catch (err) { console.error('applyFilters error', err); } // Captura errores de applyFilters
-}
 
-// Función que limpia todos los filtros y restaura el estado inicial
-function clearFilters() {
-  // limpiar input de búsqueda
-  const s = document.getElementById('search'); if (s) s.value = '';
-  // reset selects
-  ['filter-gore', 'filter-scares', 'filter-jumps', 'filter-suspense'].forEach(id => {
-    const el = document.getElementById(id); if (el) el.value = '0';
-  });
-  // desmarcar tags
-  document.querySelectorAll('#tags-list input[type=checkbox]').forEach(cb => { cb.checked = false; });
-  // cerrar desplegable de tags
-  const tagsContainer = document.getElementById('tags-container'); if (tagsContainer) tagsContainer.classList.add('hidden');
-  const tagsToggle = document.getElementById('tags-toggle'); if (tagsToggle) tagsToggle.classList.remove('open');
-  // restaurar carruseles, títulos y lista completa
-  document.querySelectorAll('.carousel-wrapper').forEach(el => el.style.display = 'flex');
-  document.querySelectorAll('h2').forEach(h => { /* sólo restaurar si es título de carrusel - se deja en blanco en filters-panel */ if (h.parentElement && h.parentElement.querySelector('.carousel-wrapper')) h.style.display = ''; });
-  renderAllMovies._overrideList = null; // Quitar override
-  const countEl = document.getElementById('results-count'); if (countEl) countEl.innerText = String(allMovies.length); // Mostrar total
-  renderAllMovies(1); // Renderizar de nuevo lista completa
-  // re-renderizar carruseles originales
-  renderCarousel("", (window.G_carousels && window.G_carousels.recommended) || [], "carousel-recommended");
-  renderCarousel("Favoritas de Japón", (window.G_carousels && window.G_carousels.favoritesJapan) || [], "carousel-favoritesJapan");
-  renderCarousel("Favoritas de España", (window.G_carousels && window.G_carousels.favoritesSpain) || [], "carousel-favoritesSpain");
-  renderCarousel("Favoritas de USA", (window.G_carousels && window.G_carousels.favoritesUSA) || [], "carousel-favoritesUSA");
-  renderCarousel("Terror Coreano", (window.G_carousels && window.G_carousels.koreanHorror) || [], "carousel-koreanHorror");
-  renderCarousel("Cine Extremo Francés", (window.G_carousels && window.G_carousels.frenchExtreme) || [], "carousel-frenchExtreme");
-  setupCarouselButtons(); // Reconfigura botones
-}
-
-
-let allMovies = []; // Array global con todas las películas
-
-
-async function init() {
-  // 🔥 ARREGLO: Ejecutamos openCryptDoor al inicio para asegurar que la animación de la puerta se inicie
-  if (typeof window.openCryptDoor === 'function') {
-    window.openCryptDoor(); // Llama a la animación si existe
+  } catch (err) {
+    console.error('applyFilters error', err);
   }
+}
 
-  allMovies = await fetchJSON("/api/movies"); // Carga películas desde la API
-  const carousels = await fetchJSON("/api/carousels"); // Carga datos de carousels
-  // guardar carousels en variable global para poder re-renderizarlos sin volver a pedir al servidor
-  window.G_carousels = carousels; // Guarda en global
 
-  renderCarousel("", carousels.recommended, "carousel-recommended"); // Renderiza cada carrusel
-  renderCarousel("Favoritas de Japón", carousels.favoritesJapan, "carousel-favoritesJapan");
-  renderCarousel("Favoritas de España", carousels.favoritesSpain, "carousel-favoritesSpain");
-  renderCarousel("Favoritas de USA", carousels.favoritesUSA, "carousel-favoritesUSA");
-  renderCarousel("Terror Coreano", carousels.koreanHorror, "carousel-koreanHorror");
-  renderCarousel("Cine Extremo Francés", carousels.frenchExtreme, "carousel-frenchExtreme");
+// Limpiar filtros y restaurar estado inicial
+function clearFilters() {
+  document.getElementById('search').value = '';
+  ['filter-gore','filter-scares','filter-jumps','filter-suspense'].forEach(id => document.getElementById(id).value = '0');
+  document.querySelectorAll('#tags-list input[type=checkbox]').forEach(cb => cb.checked = false);
+
+  // Cerrar tags desplegable
+  document.getElementById('tags-container')?.classList.add('hidden');
+  document.getElementById('tags-toggle')?.classList.remove('open');
+
+  // Restaurar carruseles y lista completa
+  document.querySelectorAll('.carousel-wrapper').forEach(el => el.style.display = 'flex');
+  document.querySelectorAll('h2').forEach(h => { 
+    if (h.parentElement?.querySelector('.carousel-wrapper')) h.style.display = ''; 
+  });
+
+  renderAllMovies._overrideList = null;
+  document.getElementById('results-count').innerText = String(allMovies.length);
+  renderAllMovies(1);
+
+  Object.entries(window.G_carousels || {}).forEach(([key, ids]) => {
+    const containerId = `carousel-${key}`;
+    const titleMap = {
+      recommended: '',
+      favoritesJapan: 'Favoritas de Japón',
+      favoritesSpain: 'Favoritas de España',
+      favoritesUSA: 'Favoritas de USA',
+      koreanHorror: 'Terror Coreano',
+      frenchExtreme: 'Cine Extremo Francés'
+    };
+    renderCarousel(titleMap[key], ids, containerId);
+  });
+
+  setupCarouselButtons();
+}
+
+// ================================
+// VARIABLES GLOBALES
+// ================================
+let allMovies = [];
+const PAGE_SIZE = 14;
+
+// ================================
+// INICIALIZACIÓN
+// ================================
+async function init() {
+  // Animación inicial
+  if (typeof window.openCryptDoor === 'function') window.openCryptDoor();
+
+  // Cargar datos
+  allMovies = await fetchJSON("/api/movies");
+  const carousels = await fetchJSON("/api/carousels");
+  window.G_carousels = carousels;
+
+  // Renderizar carruseles iniciales
+  Object.entries(carousels).forEach(([key, ids]) => {
+    const containerId = `carousel-${key}`;
+    const titleMap = {
+      recommended: '',
+      favoritesJapan: 'Favoritas de Japón',
+      favoritesSpain: 'Favoritas de España',
+      favoritesUSA: 'Favoritas de USA',
+      koreanHorror: 'Terror Coreano',
+      frenchExtreme: 'Cine Extremo Francés'
+    };
+    renderCarousel(titleMap[key], ids, containerId);
+  });
 
   // Inicializar filtros y listeners
-  renderTagsFilter(); // Crear lista de tags
-  document.getElementById("search").addEventListener("input", applyFilters); // Listener búsqueda
-  ['filter-gore', 'filter-scares', 'filter-jumps', 'filter-suspense'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.addEventListener('change', applyFilters); // Listener para selects
+  renderTagsFilter();
+  document.getElementById("search").addEventListener("input", applyFilters);
+  ['filter-gore','filter-scares','filter-jumps','filter-suspense'].forEach(id => {
+    document.getElementById(id)?.addEventListener('change', applyFilters);
   });
 
-  // Listener para el toggle de tags (desplegable)
+  // Toggle tags
   const tagsToggle = document.getElementById('tags-toggle');
   const tagsContainer = document.getElementById('tags-container');
   if (tagsToggle && tagsContainer) {
     tagsToggle.addEventListener('click', () => {
-      tagsContainer.classList.toggle('hidden'); // Mostrar/ocultar contenedor
-      tagsToggle.classList.toggle('open'); // Cambiar estado del toggle
-      // forzar foco en primer checkbox al abrir
-      if (!tagsContainer.classList.contains('hidden')) {
-        const first = tagsContainer.querySelector('input[type=checkbox]');
-        if (first) first.focus(); // Pone foco en el primer checkbox
-      }
+      tagsContainer.classList.toggle('hidden');
+      tagsToggle.classList.toggle('open');
+      tagsContainer.querySelector('input[type=checkbox]')?.focus();
     });
   }
 
-  // Listener para limpiar filtros
-  const clearBtn = document.getElementById('clear-filters');
-  if (clearBtn) clearBtn.addEventListener('click', clearFilters);
+  // Botón limpiar filtros
+  document.getElementById('clear-filters')?.addEventListener('click', clearFilters);
 
-  // Después de renderizar carruseles, inicializar lista paginada y botones
-  renderAllMovies(1); // página inicial
-  setupCarouselButtons(); // Configura botones
+  renderAllMovies(1);
+  setupCarouselButtons();
 }
 
-const PAGE_SIZE = 15; // películas por página en la lista completa
-
-// Renderiza la lista paginada de todas las películas (solo imagen + título)
+// ================================
+// LISTA DE PELÍCULAS (PAGINADA)
+// ================================
 function renderAllMovies(page = 1) {
-  const grid = document.getElementById('movies-grid'); // Contenedor del grid
-  const pagination = document.getElementById('movies-pagination'); // Contenedor de paginación
-  if (!grid || !pagination) return; // Si faltan elementos, salir
+  const grid = document.getElementById('movies-grid');
+  const pagination = document.getElementById('movies-pagination');
+  if (!grid || !pagination) return;
 
-  // Si existe una lista override (resultado de filtros), usarla
-  const list = Array.isArray(renderAllMovies._overrideList) ? renderAllMovies._overrideList : allMovies; // Lista a renderizar
-  const total = list.length; // Total de elementos
-  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE)); // Número de páginas
-  const current = Math.min(Math.max(1, page), totalPages); // Página actual válida
+  const list = Array.isArray(renderAllMovies._overrideList) ? renderAllMovies._overrideList : allMovies;
+  const total = list.length;
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  const current = Math.min(Math.max(1, page), totalPages);
 
-  // calcular slice de películas para la página actual
-  const start = (current - 1) * PAGE_SIZE; // Índice de inicio
-  const pageItems = list.slice(start, start + PAGE_SIZE); // Elementos de la página
+  const start = (current - 1) * PAGE_SIZE;
+  const pageItems = list.slice(start, start + PAGE_SIZE);
 
-  // construir grid: tarjetas pequeñas con imagen y nombre
   grid.innerHTML = pageItems.map(m => `
     <div class="movie-small" onclick="openMovie(${m.id})">
       <img src="${m.poster}" alt="${m.title}" />
       <p class="movie-small-title">${m.title}</p>
     </div>
-  `).join(''); // Inserta tarjetas en el grid
+  `).join('');
 
-  // construir paginación simple: anterior, números y siguiente
-  let pagesHtml = '';
-  pagesHtml += `<button class="page-btn" data-page="${current - 1}" ${current === 1 ? 'disabled' : ''}>‹</button>`;
+  // Paginación
+  let pagesHtml = `<button class="page-btn" data-page="${current - 1}" ${current===1?'disabled':''}>‹</button>`;
   for (let p = 1; p <= totalPages; p++) {
-    pagesHtml += `<button class="page-btn ${p === current ? 'active' : ''}" data-page="${p}">${p}</button>`;
+    pagesHtml += `<button class="page-btn ${p===current?'active':''}" data-page="${p}">${p}</button>`;
   }
-  pagesHtml += `<button class="page-btn" data-page="${current + 1}" ${current === totalPages ? 'disabled' : ''}>›</button>`;
-  pagination.innerHTML = pagesHtml; // Inserta la paginación
+  pagesHtml += `<button class="page-btn" data-page="${current + 1}" ${current===totalPages?'disabled':''}>›</button>`;
+  pagination.innerHTML = pagesHtml;
 
-  // enlazar eventos de paginación
   pagination.querySelectorAll('.page-btn').forEach(b => {
     b.addEventListener('click', () => {
       const p = Number(b.dataset.page);
-      if (p >= 1 && p <= totalPages) {
-        // Al hacer click, llamar a renderAllMovies(p)
-        renderAllMovies(p);
-      }
+      if (p >= 1 && p <= totalPages) renderAllMovies(p);
     });
   });
 
-  // Lógica de control de visibilidad de carruseles (página 1 vs otras)
   if (typeof window.actualizarVisibilidadCarruseles === 'function') {
-    window.actualizarVisibilidadCarruseles(current); // Llama a función externa si existe
+    window.actualizarVisibilidadCarruseles(current);
   }
 
-  //ARREGLO: Pasamos la página actual a scrollToTop para que sepa dónde ir
-  if (typeof window.scrollToTop === 'function') {
-    window.scrollToTop(current); // <-- ¡Importante!
-  }
+  if (typeof window.scrollToTop === 'function') window.scrollToTop(current);
 }
 
+// ================================
+// CARRUSELES
+// ================================
 function renderCarousel(title, ids, containerId) {
-  const container = document.getElementById(containerId); // Contenedor del carrusel
-  const movies = ids.map(id => allMovies.find(m => m.id === id)).filter(Boolean); // Obtiene objetos de película por id
-
-  // insertar sólo la fila .carousel dentro del contenedor (el título ya está en el HTML)
+  const container = document.getElementById(containerId);
+  const movies = ids.map(id => allMovies.find(m => m.id === id)).filter(Boolean);
   container.innerHTML = `<div class="carousel">${movies.map(m => `
     <div class="card" onclick="openMovie(${m.id})">
       <img src="${m.poster}" alt="${m.title}" />
       <p class="card-title">${m.title}</p>
-    </div>`).join("")}</div>`; // Genera HTML del carrusel (usa template literal multilínea)
+    </div>`).join("")}</div>`;
 }
 
+// Botones de scroll del carrusel
 function setupCarouselButtons() {
   document.querySelectorAll('.arrow').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const key = btn.dataset.carousel; // 'recommended' or 'favoritesJapan'
+    btn.onclick = () => {
+      const key = btn.dataset.carousel; 
       const container = document.getElementById(`carousel-${key}`);
-      if (!container) return; // Si no existe, salir
-      // el elemento que tiene overflow-x es .carousel-container (el propio container)
-      const amount = Math.round(container.clientWidth * 0.8) || 300; // Cantidad a desplazar
+      if (!container) return;
+
+      const amount = Math.round(container.clientWidth * 0.8) || 300;
+      const maxScroll = container.scrollWidth - container.clientWidth;
+
       if (btn.classList.contains('left')) {
-        container.scrollBy({ left: -amount, behavior: 'smooth' }); // Scroll a izquierda
+        if (container.scrollLeft <= 0) container.scrollTo({ left: maxScroll, behavior: 'instant' });
+        else container.scrollBy({ left: -amount, behavior: 'smooth' });
       } else {
-        container.scrollBy({ left: amount, behavior: 'smooth' }); // Scroll a derecha
+        if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 5) container.scrollTo({ left: 0, behavior: 'instant' });
+        else container.scrollBy({ left: amount, behavior: 'smooth' });
       }
-    });
+    };
   });
 }
 
-function openMovie(id) {
-  window.location.href = `movie.html?id=${id}`; // Redirige a la página de detalle con query param
+// Carrusel de resultados de búsqueda
+function renderSearchCarousel(filtered) {
+  const main = document.querySelector('main');
+  const old = document.getElementById('search-results-section');
+  if (old) old.remove();
+
+  const sec = document.createElement('section');
+  sec.id = 'search-results-section';
+  sec.innerHTML = `
+    <h2>Resultados (${filtered.length})</h2>
+    <div class="carousel-wrapper">
+      <button class="arrow left" data-carousel="search">❮</button>
+      <div class="carousel-container" id="carousel-search">
+        <div class="carousel">
+          ${filtered.map(m => `
+            <div class="card" onclick="openMovie(${m.id})">
+              <img src="${m.poster}" alt="${escapeHtml(m.title)}" />
+              <p class="card-title">${escapeHtml(m.title)}</p>
+            </div>`).join('')}
+        </div>
+      </div>
+      <button class="arrow right" data-carousel="search">❯</button>
+    </div>
+  `;
+
+  main.insertBefore(sec, document.getElementById('all-movies'));
+  setupCarouselButtons();
 }
 
-// Búsqueda simple + filtros básicos: soporta "gore:3", "scares:4" o texto
-// handleSearch removed - ahora usamos applyFilters que soporta métricas y tags
+// ================================
+// FUNCIONES AUXILIARES
+// ================================
+function openMovie(id) {
+  window.location.href = `movie.html?id=${id}`;
+}
 
-// --- Formulario de contacto ---
+// ================================
+// FORMULARIO DE CONTACTO
+// ================================
 document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("contactForm"); // Formulario de contacto
-  const msg = document.getElementById("contactMessage"); // Elemento para mensajes al usuario
-
-  if (!form || !msg) return; // Si faltan elementos, salir
+  const form = document.getElementById("contactForm");
+  const msg = document.getElementById("contactMessage");
+  if (!form || !msg) return;
 
   form.addEventListener("submit", async (e) => {
-    e.preventDefault(); // Evita el submit por defecto
-
-    const data = new FormData(form); // Toma los datos del formulario
-    const name = data.get("name");
-    const email = data.get("email");
-    const message = data.get("message");
+    e.preventDefault();
+    const data = new FormData(form);
+    const payload = {
+      name: data.get("name"),
+      email: data.get("email"),
+      message: data.get("message")
+    };
 
     try {
       const r = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, message })
+        body: JSON.stringify(payload)
       });
 
-      if (!r.ok) throw new Error("No se pudo enviar"); // Lanza si la respuesta no es OK
-
-      msg.textContent = "¡Gracias! Tu mensaje ha sido guardado."; // Mensaje de éxito
-      form.reset(); // Resetea formulario
+      if (!r.ok) throw new Error("No se pudo enviar");
+      msg.textContent = "¡Gracias! Tu mensaje ha sido guardado.";
+      form.reset();
     } catch (err) {
-      console.error(err); // Muestra error en consola
-      msg.textContent = "Ups, hubo un error al enviar."; // Mensaje de fallo
+      console.error(err);
+      msg.textContent = "Ups, hubo un error al enviar.";
     }
 
-    setTimeout(() => (msg.textContent = ""), 3000); // Limpia el mensaje a los 3s
+    setTimeout(() => msg.textContent = "", 3000);
   });
 });
 
-window.openMovie = openMovie; // exponer para onclick inline
+// Exponer función global para onclick inline
+window.openMovie = openMovie;
+
+// Inicializar la app
 init();
+
+
