@@ -174,31 +174,68 @@ if (!fs.existsSync(contactsPath)) {
   fs.writeFileSync(contactsPath, JSON.stringify([], null, 2)); // Crea archivo con array vacío
 }
 
-// Guardar mensaje de contacto
-app.post("/api/contact", (req, res) => { // Endpoint para recibir mensajes de contacto
+/**
+ * Ruta POST: /api/contact
+ * -------------------------------------------
+ * Esta ruta recibe la información enviada por el
+ * formulario de contacto (nombre, correo y mensaje),
+ * valida los datos, los guarda en un archivo JSON
+ * y responde al cliente con el resultado.
+ */
+app.post("/api/contact", (req, res) => {
   try {
-    const { name, email, message } = req.body; // Extrae campos del cuerpo
+    // Extrae los datos enviados en el cuerpo de la solicitud
+    let { name, email, message } = req.body;
 
-    if (!name || !email || !message) {
-      return res.status(400).json({ error: "Faltan campos" }); // 400 si falta algún campo
+    // Validación inicial: el nombre y el email son obligatorios
+    if (!name || !email) {
+      return res.status(400).json({ error: "Faltan campos obligatorios" });
     }
 
-    const prev = JSON.parse(fs.readFileSync(contactsPath)); // Lee mensajes previos
+    // Normaliza los valores eliminando espacios innecesarios
+    name = String(name).trim();
+    email = String(email).trim();
+    message = String(message || "").trim();
+
+    // Regex para email
+    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[^\s@]+@(gmail\.(com|mx|es|com\.mx)|hotmail\.(com|es)|outlook\.(com|es|com\.mx)|ciencias\.unam\.mx)$/i;
+
+    // Validación solo de nombre y email
+    if (name.length < 2) {
+      return res.status(400).json({ error: "Nombre demasiado corto" });
+    }
+
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ error: "Correo electrónico inválido" });
+    }
+
+    /**
+     * Lee el archivo JSON donde se guardan los contactos.
+     * El archivo debe existir y contener un arreglo JSON válido.
+     */
+    const prev = JSON.parse(fs.readFileSync(contactsPath));
 
     const newMsg = {
-      name: String(name).substring(0, 100), // Sanitiza y limita nombre
-      email: String(email).substring(0, 150), // Sanitiza y limita email
-      message: String(message).substring(0, 2000), // Sanitiza y limita mensaje
-      date: new Date().toISOString() // Fecha del mensaje
+      // Se aplica un límite para evitar entradas excesivamente largas
+      name: name.substring(0, 100),
+      email: email.substring(0, 150),
+      message: message.substring(0, 2000), // se acepta vacio
+      date: new Date().toISOString()// Fecha en formato estándar
     };
 
-    prev.push(newMsg); // Añade nuevo mensaje
-    fs.writeFileSync(contactsPath, JSON.stringify(prev, null, 2)); // Guarda cambios
+    prev.push(newMsg);
+    fs.writeFileSync(contactsPath, JSON.stringify(prev, null, 2));
 
-    return res.status(201).json({ success: true, contact: newMsg }); // Responde con el nuevo mensaje
+    return res.status(201).json({ success: true, contact: newMsg });
   } catch (err) {
-    console.error(err); // Log de error
-    return res.status(500).json({ error: "Error al guardar el mensaje" }); // 500 si ocurre un error
+    /**
+     * Cualquier error en el proceso (lectura/escritura del archivo,
+     * problemas con JSON, etc.) es capturado aquí para evitar que
+     * el servidor se caiga y se responde con un error 500.
+     */
+    console.error(err);
+    return res.status(500).json({ error: "Error al guardar el mensaje" });
   }
 });
 
