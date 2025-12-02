@@ -58,12 +58,11 @@ async function load() {
 
       <div class="player">
         <h3>Película</h3>
-          <video id="codeflix-trailer" controls width="720">
+        <!-- Reproductor principal solicitado: muestra el archivo codeflix.mp4 desde public/videos/trailers -->
+        <video id="movie-video" controls width="720">
           <source src="/videos/trailers/codeflix.mp4" type="video/mp4">
           Tu navegador no soporta el elemento video.
         </video>
-        <!-- Aquí se agregará el trailer específico después -->
-        <div id="movie-specific-trailer-container" style="display: none; margin-top: 20px;"></div>
         <!-- Botón para abrir el formulario de valoración -->
         <div style="text-align:center;margin-top:8px;"><button id="simulate-end" class="simulate-btn">Calificar película</button></div>
       </div>
@@ -83,54 +82,6 @@ async function load() {
       </section>
     </div>
   `; // Fin del template literal
-
-  // Configurar el reproductor secuencial
-  document.getElementById('codeflix-trailer').addEventListener('ended', function() {
-    this.style.display = 'none';
-    
-    // Mostrar trailer específico
-    const container = document.getElementById('movie-specific-trailer-container');
-    container.style.display = 'block';
-    
-    // Renderizar el trailer específico
-    if (movie.trailer && movie.trailer.type === 'youtube') {
-      const iframe = document.createElement('iframe');
-      iframe.width = '720';
-      iframe.height = '405';
-      iframe.src = movie.trailer.url;
-      iframe.frameBorder = '0';
-      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-      iframe.allowFullscreen = true;
-      container.appendChild(iframe);
-    } else if (movie.trailer && movie.trailer.type === 'local') {
-      const video = document.createElement('video');
-      video.controls = true;
-      video.width = 720;
-      const source = document.createElement('source');
-      source.src = movie.trailer.url;
-      source.type = 'video/mp4';
-      video.appendChild(source);
-      container.appendChild(video);
-      
-      // Si es video local, mostrar formulario al terminar
-      video.addEventListener('ended', () => {
-        showRatingForm(movie);
-      });
-    } else if (movie.video) {
-      const video = document.createElement('video');
-      video.controls = true;
-      video.width = 720;
-      video.src = movie.video;
-      container.appendChild(video);
-      
-      // Si es video directo, mostrar formulario al terminar
-      video.addEventListener('ended', () => {
-        showRatingForm(movie);
-      });
-    } else {
-      container.innerHTML = '<p>Trailer específico no disponible</p>';
-    }
-  });
 
   // Agrega un listener al botón "Enviar" para procesar el nuevo comentario
   document.getElementById("send").addEventListener("click", addComment);
@@ -223,10 +174,10 @@ async function load() {
   }
 
   // Si existe un elemento video, añadimos evento 'ended' para mostrar el formulario al terminar
-  const vid = document.getElementById('codeflix-trailer');
+  const vid = document.getElementById('movie-video');
   if (vid) {
     vid.addEventListener('ended', () => {
-      // Ya manejado arriba para mostrar trailer específico
+      showRatingForm(movie); // Muestra formulario de valoración al terminar
     });
   }
 
