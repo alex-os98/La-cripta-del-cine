@@ -1,0 +1,546 @@
+/* Fuente cinematográfica */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap'); /* Importa fuente Cinzel para títulos */
+
+/* Estilos generales del body */
+body {
+  background-color: #000; /* Fondo negro */
+  color: #fff; /* Texto blanco por defecto */
+  font-family: Arial, sans-serif; /* Fuente por defecto */
+  text-align: center; /* Texto centrado en bloques por defecto */
+  margin: 0; /* Elimina margen por defecto */
+  padding: 0; /* Elimina padding por defecto */
+
+}
+
+/* Cabecera fija */
+header {
+  background: #111; /* Fondo oscuro */
+  padding: 1rem; /* Espaciado interno */
+  position: sticky; /* Fija en la parte superior al hacer scroll */
+  top: 0; /* Arriba */
+  z-index: 3000; /* Encima de otros elementos */
+}
+
+/* Estilos para títulos principales */
+h1,
+h2 {
+  font-family: "Cinzel", serif; /* Fuente decorativa */
+  text-transform: uppercase; /* Mayúsculas */
+  letter-spacing: 1.5px; /* Espaciado de letras */
+  margin-bottom: 1rem; /* Margen inferior */
+  background: linear-gradient(90deg, #b86bff, #ff7b00); /* Degradado */
+  /* Morado → Naranja */
+  -webkit-background-clip: text; /* Aplica degradado sólo al texto */
+  color: transparent; /* Texto transparente para ver el degradado */
+  /* El degradado se aplica como relleno del texto */
+}
+
+.codeflix-brand-banner {
+  text-align: center; /* Centrado */
+  margin: 2.5rem 0; /* Margen vertical */
+  font-family: "Cinzel", serif; /* Fuente decorativa */
+  letter-spacing: 2px; /* Espaciado */
+  font-size: 2rem; /* Tamaño grande */
+  color: transparent; /* Texto con degradado */
+  background: linear-gradient(90deg, #b86bff, #ff7b00);
+  -webkit-background-clip: text;
+  font-weight: 700; /* Negrita */
+}
+
+.codeflix-brand-banner small {
+  display: block; /* Mostrar en bloque */
+  font-size: 0.9rem; /* Tamaño pequeño */
+  color: #bbb; /* Color gris para subtítulo */
+  margin-top: 6px; /* Separación superior */
+}
+
+/* Aumentar solo el logo en la página principal (no afecta búsqueda ni otros headers) */
+.home header h1 {
+  font-size: 3rem; /* Tamaño mayor para el logo en home */
+  margin: 0.2rem 0 1rem 0; /* Ajuste de márgenes para evitar empujar elementos */
+}
+
+/* Contenedor que envuelve cada carrusel */
+.carousel-wrapper {
+  position: relative; /* Para posicionar botones */
+  display: flex; /* Flexbox */
+  align-items: center; /* Centrado vertical */
+  justify-content: center; /* Centrado horizontal */
+  margin: 1.5rem auto; /* Centrado con margen */
+  width: 80%; /* Ancho relativo */
+}
+
+.carousel-container {
+  display: flex; /* Filas horizontales */
+  overflow-x: auto; /* Scroll horizontal */
+  scroll-behavior: smooth; /* Scroll suave */
+  gap: 15px; /* Espacio entre items */
+  width: 80%; /* Ancho */
+  padding: 10px; /* Relleno interno */
+}
+
+.carousel-container::-webkit-scrollbar {
+  display: none; /* Oculta scrollbar en WebKit */
+  /* sin scroll visible */
+}
+
+.carousel-container img {
+  width: 180px; /* Ancho de póster */
+  height: 260px; /* Alto de póster */
+  border-radius: 10px; /* Bordes redondeados */
+  transition: transform 0.3s; /* Animación al hover */
+  cursor: pointer; /* Cursor clickable */
+}
+
+.carousel-container img:hover {
+  transform: scale(1.1); /* Zoom al pasar el ratón */
+}
+
+.arrow {
+  background: rgba(0, 0, 0, 0.6); /* Fondo semitransparente para flechas */
+  color: white; /* Color de flecha */
+  border: none; /* Sin borde */
+  font-size: 2rem; /* Tamaño grande */
+  padding: 10px; /* Relleno */
+  cursor: pointer; /* Cursor */
+  border-radius: 50%; /* Circular */
+  transition: background 0.3s; /* Transición al hover */
+}
+
+.arrow:hover {
+  background: rgba(255, 255, 255, 0.3); /* Fondo claro al hover */
+}
+
+/* layout del carrusel interno: los .card deben alinearse en fila */
+.carousel {
+  display: flex; /* Fila horizontal */
+  gap: 15px; /* Separación entre cards */
+  align-items: flex-start; /* Alineación superior */
+}
+
+.card {
+  min-width: 180px; /* Ancho mínimo para mantener diseño */
+  /* mismo ancho que las imágenes para que no se colapsen */
+  flex: 0 0 auto; /* No crecer ni encoger */
+  /* evitar que se encojan o expandan */
+  text-align: center; /* Centrado del contenido */
+}
+
+.card img {
+  width: 100%; /* Imagen ocupa todo el contenedor */
+  height: 260px; /* Alto fijo */
+  object-fit: cover; /* Recorta proporcionalmente */
+  border-radius: 10px; /* Bordes redondeados */
+}
+
+/* estilos para la página de detalle de película */
+.movie-detail {
+  max-width: 1000px; /* Ancho máximo de la ficha */
+  margin: 1.5rem auto; /* Centrado y margen */
+  padding: 1rem; /* Espaciado interno */
+  text-align: left; /* Texto alineado a la izquierda */
+}
+
+.movie-detail .back {
+  display: inline-block; /* Mostrar como inline-block */
+  margin-bottom: 0.5rem; /* Espaciado inferior */
+  color: #fff; /* Color del enlace */
+}
+
+.movie-detail .meta {
+  display: flex; /* Layout en dos columnas: poster + info */
+  gap: 1rem; /* Espaciado entre columnas */
+  align-items: flex-start; /* Alineación superior */
+}
+
+.movie-detail .poster {
+  width: 220px; /* Ancho del poster */
+  height: 320px; /* Alto del poster */
+  object-fit: cover; /* Ajuste de la imagen */
+  border-radius: 6px; /* Bordes redondeados */
+}
+
+.movie-detail .info h1 {
+  margin: 0 0 0.5rem 0; /* Margen específico */
+  color: #ff8080; /* Color del título */
+}
+
+.movie-detail .synopsis {
+  color: #ddd; /* Color de la sinopsis */
+}
+
+.tag {
+  background: #222; /* Fondo para tags */
+  color: #ffb3b3; /* Color del texto */
+  padding: 2px 8px; /* Espaciado */
+  border-radius: 12px; /* Bordes redondeados */
+  margin-right: 6px; /* Separación derecha */
+  font-size: 0.9rem; /* Tamaño de fuente */
+}
+
+.player {
+  margin-top: 1rem; /* Separación superior */
+  display: flex; /* Centrado del reproductor */
+  justify-content: center;
+}
+
+.levels {
+  margin-top: 0.6rem; /* Separación */
+  color: #ffd1d1; /* Color para niveles */
+}
+
+.levels strong {
+  color: #fff; /* Color para labels fuertes */
+  margin-right: 4px; /* Espacio a la derecha */
+}
+
+/* Estilos para el terrorímetro en la ficha de película */
+.terrorimeter {
+  display: flex; /* Barra + score */
+  align-items: center;
+  gap: 12px; /* Separación */
+  margin: 0.5rem 0 0.8rem 0; /* Margen específico */
+}
+
+.terror-bar {
+  width: 220px; /* Ancho de la barra */
+  height: 12px; /* Alto */
+  background: rgba(255, 255, 255, 0.06); /* Fondo suave */
+  border-radius: 8px; /* Bordes */
+  overflow: hidden; /* Oculta exceso */
+}
+
+.terror-fill {
+  height: 100%; /* Rellena la barra */
+  background: linear-gradient(90deg, #ff7b00, #b86bff); /* Degradado */
+  border-radius: 8px 0 0 8px; /* Bordes redondeados a la izquierda */
+  transition: width 400ms ease; /* Animación suave al cambiar width */
+}
+
+.terror-score {
+  color: #ffd9d9; /* Color del texto del score */
+  font-weight: 600; /* Negrita ligera */
+  font-size: 0.95rem; /* Tamaño */
+}
+
+/* Estilos para modal de valoración (rating) */
+.rating-overlay {
+  position: fixed; /* Fija sobre la pantalla */
+  inset: 0; /* Cubre toda la pantalla */
+  background: rgba(0, 0, 0, 0.6); /* Fondo semi-transparente */
+  display: flex; /* Centrado del modal */
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* Encima de todo */
+}
+
+.rating-box {
+  background: #0b0b0b; /* Fondo del cuadro */
+  padding: 18px; /* Espaciado interior */
+  border-radius: 8px; /* Bordes */
+  width: 320px; /* Ancho fijo */
+  color: #fff; /* Texto blanco */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7); /* Sombra */
+}
+
+.rating-box h3 {
+  margin-top: 0; /* Quita margen superior */
+  color: #ff9f6b; /* Color del título */
+}
+
+.rating-box label {
+  display: block; /* Mostrar en bloque */
+  margin: 8px 0; /* Margen vertical */
+  font-size: 0.95rem; /* Tamaño */
+}
+
+.rating-box input[type="number"] {
+  width: 64px; /* Ancho del input numérico */
+  margin-left: 8px; /* Margen izquierdo */
+  padding: 6px; /* Padding */
+  border-radius: 6px; /* Bordes */
+  background: #000; /* Fondo */
+  color: #fff; /* Texto */
+  border: 1px solid #333; /* Borde */
+}
+
+.rating-actions {
+  display: flex; /* Botones alineados a la derecha */
+  gap: 8px; /* Separación entre botones */
+  justify-content: flex-end; /* Alineación */
+  margin-top: 10px; /* Separación superior */
+}
+
+.rating-actions button {
+  padding: 8px 10px; /* Espaciado del botón */
+  border-radius: 6px; /* Bordes */
+  border: none; /* Sin borde */
+  cursor: pointer; /* Cursor pointer */
+}
+
+.rating-actions #rating-send {
+  background: #ff4040; /* Botón enviar en rojo */
+  color: #fff; /* Texto blanco */
+}
+
+.rating-actions #rating-cancel {
+  background: #222; /* Botón cancelar oscuro */
+  color: #fff; /* Texto blanco */
+  border: 1px solid #333; /* Borde sutil */
+}
+
+.simulate-btn {
+  padding: 6px 10px; /* Botón simular fin */
+  border-radius: 6px;
+  background: #333;
+  color: #fff;
+  border: 1px solid #444;
+  cursor: pointer;
+}
+
+/* Estilos para control de estrellas */
+.star-rating {
+  display: inline-block; /* Contenedor inline para estrellas */
+  margin-left: 10px; /* Separación respecto al label */
+}
+
+.star {
+  font-size: 1.4rem; /* Tamaño estrella */
+  color: #444; /* Color por defecto */
+  margin: 0 2px; /* Margen horizontal */
+  cursor: pointer; /* Cursor */
+  user-select: none; /* Evita seleccionar texto */
+}
+
+.star:hover,
+.star:focus {
+  color: #ffb66b; /* Color al hover/focus */
+  outline: none; /* Quita outline por defecto */
+}
+
+.star.selected {
+  color: #ff9f6b; /* Color cuando está seleccionada */
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6); /* Sombra */
+}
+
+.rating-field {
+  display: flex; /* Alinea label y control */
+  align-items: center;
+  justify-content: space-between;
+  margin: 8px 0; /* Separación */
+}
+
+.rating-label {
+  width: 120px; /* Ancho fijo para labels */
+  color: #ddd; /* Color gris */
+}
+
+.comments-section {
+  margin-top: 1.5rem; /* Separación superior */
+}
+
+.comment {
+  background: rgba(255, 255, 255, 0.03); /* Fondo sutil */
+  padding: 0.6rem; /* Padding */
+  border-radius: 6px; /* Bordes redondeados */
+  margin-bottom: 0.6rem; /* Separación entre comentarios */
+}
+
+.comment b {
+  color: #fff; /* Nombre en blanco */
+}
+
+.comment small {
+  color: #bbb; /* Fecha en gris */
+  margin-left: 8px; /* Separación izquierda */
+}
+
+.comment-form {
+  display: flex; /* Formulario en columna */
+  flex-direction: column;
+  gap: 0.5rem; /* Espaciado */
+}
+
+.comment-form input,
+.comment-form textarea {
+  width: 100%; /* Ancho completo */
+  padding: 8px; /* Padding */
+  border-radius: 6px; /* Bordes */
+  border: 1px solid #333; /* Borde */
+  background: #000; /* Fondo */
+  color: #fff; /* Texto */
+}
+
+.comment-form button {
+  width: 120px; /* Ancho botón */
+  padding: 8px; /* Padding */
+  border-radius: 6px; /* Bordes */
+  background: #ff4040; /* Fondo rojo */
+  color: #fff; /* Texto blanco */
+  border: none; /* Sin borde */
+  cursor: pointer; /* Cursor */
+}
+
+/* Estilos para la lista paginada en la página principal */
+.movies-grid {
+  display: grid; /* Grid responsivo */
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Columnas adaptativas */
+  gap: 12px; /* Separación */
+  margin: 1rem 0; /* Margen vertical */
+}
+
+.movie-small {
+  cursor: pointer; /* Clickable */
+  text-align: center; /* Centrado */
+  padding: 6px; /* Padding */
+  background: rgba(255, 255, 255, 0.02); /* Fondo sutil */
+  border-radius: 6px; /* Bordes */
+}
+
+.movie-small img {
+  width: 100%; /* Imagen responsiva */
+  height: 200px; /* Alto fijo */
+  object-fit: cover; /* Ajuste */
+  border-radius: 6px; /* Bordes */
+}
+
+.movie-small-title {
+  margin: 6px 0 0 0; /* Margen */
+  font-size: 0.95rem; /* Tamaño */
+  color: #fff; /* Color */
+}
+
+.pagination {
+  display: flex; /* Paginación en fila */
+  gap: 6px; /* Espaciado */
+  justify-content: center; /* Centrado */
+  margin-bottom: 1.2rem; /* Margen inferior */
+}
+
+.page-btn {
+  padding: 6px 10px; /* Padding del botón */
+  background: #111; /* Fondo oscuro */
+  color: #fff; /* Texto blanco */
+  border-radius: 6px; /* Bordes */
+  border: 1px solid #333; /* Borde */
+  cursor: pointer; /* Cursor pointer */
+}
+
+.page-btn[disabled] {
+  opacity: 0.4; /* Opacidad cuando está deshabilitado */
+  cursor: default; /* Cursor por defecto */
+}
+
+.page-btn.active {
+  background: #ff4040; /* Botón activo en rojo */
+  border-color: #ff4040; /* Borde en rojo */
+}
+
+/* Estilos para los nuevos controles de filtro */
+.search-row { display:flex; align-items:center; gap:12px; justify-content:center; }
+/* Ajuste: hacer que la búsqueda y el toggle de tags estén alineados y el desplegable se posicione cerca */
+.search-row { position:relative; display:flex; align-items:center; gap:12px; justify-content:center; }
+.search-row input#search { width:380px; padding:8px 10px; border-radius:6px; border:1px solid #333; background:#0b0b0b; color:#fff; }
+#filters-inline { display:flex; gap:8px; align-items:center; }
+#filters-inline label { color:#ddd; font-size:0.9rem; }
+#filters-inline select { margin-left:6px; padding:4px 6px; border-radius:6px; background:#000; color:#fff; border:1px solid #333; }
+
+.filters-panel { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; width:90%; margin:12px auto; padding:10px 12px; background:rgba(255,255,255,0.03); border-radius:8px; }
+.filters-left { flex:1; text-align:left; }
+.filters-right { width:220px; text-align:right; }
+.tags-list { display:flex; flex-wrap:wrap; gap:8px; }
+.tag-checkbox { background:rgba(255,255,255,0.02); padding:6px 8px; border-radius:6px; font-size:0.9rem; }
+#results-summary { font-weight:700; color:#ffd9d9; }
+
+/* Desplegable de tags */
+.tags-toggle { display:inline-flex; align-items:center; gap:8px; padding:6px 10px; background:#111; color:#fff; border:1px solid #333; border-radius:6px; cursor:pointer; }
+.tags-toggle .arrow { display:inline-block; transition: transform 200ms ease; }
+.tags-toggle.open .arrow { transform: rotate(180deg); }
+.tags-container { margin-top:8px; }
+.tags-container.hidden { display:none; }
+.tags-list { max-height:240px; overflow:auto; padding:6px; }
+
+/* Posicionar el desplegable relativo al contenedor de búsqueda */
+.search-row .tags-inline { position: relative; }
+.search-row .tags-inline .tags-container { position: absolute; top: calc(100% + 8px); right: 0; width: 320px; background: rgba(0,0,0,0.95); border:1px solid #222; padding:10px; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,0.6); z-index:9999; }
+
+/* Botón limpiar filtros */
+.clear-filters { margin-left:12px; padding:6px 10px; background:#222; color:#fff; border:1px solid #333; border-radius:6px; cursor:pointer; }
+.clear-filters:hover { background:#2b2b2b; }
+
+/* estilo del formulario*/
+.about-section {
+  padding: 50px 20px; /* Padding del bloque about */
+  background: #0b0010; /* Fondo oscuro */
+  text-align: center; /* Centrado */
+  border-top: 2px solid #3a003a; /* Línea superior */
+}
+
+.about-section h2 {
+  color: #ff2e93; /* Color del título about */
+  margin-bottom: 30px; /* Margen inferior */
+}
+
+.about-grid {
+  display: grid; /* Grid responsive */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Columnas adaptativas */
+  gap: 25px; /* Separación */
+  max-width: 1100px; /* Ancho máximo */
+  margin: 0 auto; /* Centrado */
+}
+
+.about-card {
+  background: rgba(20, 0, 25, 0.85); /* Fondo card */
+  border: 1px solid #550055; /* Borde morado */
+  border-radius: 12px;
+  padding: 20px; /* Padding interno */
+  text-align: left; /* Texto a la izquierda */
+}
+
+.about-card h3 {
+  color: #ff2e93; /* Título en rosa */
+  margin-bottom: 10px; /* Margen inferior */
+}
+
+.about-card p {
+  color: #ddd; /* Color del texto */
+  line-height: 1.5; /* Interlineado */
+}
+
+.contact-form {
+  display: grid; /* Formulario en grid */
+  gap: 12px; /* Espaciado */
+  margin-top: 10px; /* Margen superior */
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%; /* Ancho completo */
+  background: #140016; /* Fondo */
+  color: #fff; /* Texto */
+  border: 1px solid #6a006a; /* Borde */
+  border-radius: 6px; /* Bordes */
+  padding: 8px; /* Padding */
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #ff2e93; /* Borde al focus */
+  box-shadow: 0 0 3px #ff2e93; /* Sombra al focus */
+}
+
+.contact-form button {
+  background: #ff2e93; /* Botón enviar */
+  color: #0b0010; /* Texto oscuro */
+  font-weight: bold; /* Negrita */
+  padding: 10px; /* Padding */
+  border: none; /* Sin borde */
+  border-radius: 8px; /* Bordes redondeados */
+  cursor: pointer; /* Cursor */
+}
+
+.contact-message {
+  color: #8affd1; /* Color de mensajes de contacto */
+  margin-top: 5px; /* Separación superior */
+  min-height: 18px; /* Altura mínima para evitar salto de layout */
+}

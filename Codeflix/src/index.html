@@ -1,0 +1,138 @@
+<!doctype html> <!-- Declara el tipo de documento HTML -->
+<html lang="es"> <!-- Idioma del documento: español -->
+<head>
+  <meta charset="utf-8" /> <!-- Juego de caracteres UTF-8 -->
+  <title>CodeFlix</title> <!-- Título de la página -->
+  <link rel="stylesheet" href="styles/style.css" /> <!-- Enlace al CSS principal -->
+</head>
+<body class="home">
+  <header>
+    <h1>CodeFlix</h1> <!-- Título visible en la cabecera -->
+    <div class="search-row"> <!-- Fila con búsqueda y filtros -->
+      <input id="search" placeholder="Buscar por título o descripción..." /> <!-- Input de búsqueda -->
+      <div id="filters-inline"> <!-- Contenedor inline de filtros numéricos -->
+        <label>Gore ≥ <select id="filter-gore"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label> <!-- Select gore -->
+        <label>Miedo ≥ <select id="filter-scares"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label> <!-- Select miedo -->
+        <label>Jumps ≥ <select id="filter-jumps"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label> <!-- Select jumps -->
+        <label>Suspenso ≥ <select id="filter-suspense"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label> <!-- Select suspenso -->
+      </div>
+      <div class="tags-inline"> <!-- Contenedor para filtros por tags -->
+        <button id="tags-toggle" class="tags-toggle">Seleccionar por tags <span class="arrow">▾</span></button> <!-- Botón toggle de tags -->
+        <div id="tags-container" class="tags-container hidden"> <!-- Contenedor desplegable de tags, por defecto oculto -->
+          <div id="tags-list" class="tags-list">Cargando tags...</div> <!-- Lista de tags que se llenará dinámicamente -->
+        </div>
+      </div>
+    </div>
+  </header>
+  <section id="filters-panel" class="filters-panel"> <!-- Panel superior con resumen y controles -->
+    <div class="filters-left">
+      <h3>&nbsp;</h3> <!-- Espacio reservado (diseño) -->
+    </div>
+    <div class="filters-right">
+      <div id="results-summary">Se encontraron <span id="results-count">0</span> películas <button id="clear-filters" class="clear-filters">Limpiar filtros</button></div> <!-- Resumen de resultados y botón limpiar -->
+    </div>
+  </section>
+
+  <main>
+    <h2>🎥 Películas Recomendadas</h2> <!-- Título del carrusel recomendado -->
+    <div class="carousel-wrapper"> <!-- Wrapping del carrusel recomendado -->
+      <button class="arrow left" data-carousel="recommended">❮</button> <!-- Botón anterior -->
+      <div class="carousel-container" id="carousel-recommended"></div> <!-- Contenedor donde se inyectan tarjetas -->
+      <button class="arrow right" data-carousel="recommended">❯</button> <!-- Botón siguiente -->
+    </div>
+
+    <h2> Favoritas de Japón</h2> <!-- Título carrusel Japón -->
+    <div class="carousel-wrapper">
+      <button class="arrow left" data-carousel="favoritesJapan">❮</button>
+      <div class="carousel-container" id="carousel-favoritesJapan"></div>
+      <button class="arrow right" data-carousel="favoritesJapan">❯</button>
+    </div>
+
+    <!-- Después de las secciones existentes -->
+<h2> Terror Coreano</h2> <!-- Título carrusel Terror Coreano -->
+<div class="carousel-wrapper">
+  <button class="arrow left" data-carousel="koreanHorror">❮</button>
+  <div class="carousel-container" id="carousel-koreanHorror"></div>
+  <button class="arrow right" data-carousel="koreanHorror">❯</button>
+</div>
+
+<h2> Cine Extremo Francés</h2> <!-- Título carrusel Cine Extremo Francés -->
+<div class="carousel-wrapper">
+  <button class="arrow left" data-carousel="frenchExtreme">❮</button>
+  <div class="carousel-container" id="carousel-frenchExtreme"></div>
+  <button class="arrow right" data-carousel="frenchExtreme">❯</button>
+</div>
+    
+    <h2> Favoritas de España</h2>
+    <div class="carousel-wrapper">
+      <button class="arrow left" data-carousel="favoritesSpain">❮</button>
+      <div class="carousel-container" id="carousel-favoritesSpain"></div>
+      <button class="arrow right" data-carousel="favoritesSpain">❯</button>
+    </div>
+
+    <h2> Favoritas de USA</h2>
+    <div class="carousel-wrapper">
+      <button class="arrow left" data-carousel="favoritesUSA">❮</button>
+      <div class="carousel-container" id="carousel-favoritesUSA"></div>
+      <button class="arrow right" data-carousel="favoritesUSA">❯</button>
+    </div>
+
+    <!-- Sección con todas las películas paginadas (solo imagen + título) -->
+    <section id="all-movies">
+      <h2>Todas las películas</h2>
+      <div id="movies-grid" class="movies-grid"></div> <!-- Grid donde se mostrarán todas las películas -->
+      <div id="movies-pagination" class="pagination"></div> <!-- Contenedor de paginación -->
+    </section>
+
+    <!-- Sección Quiénes somos / Visión / Contacto -->
+    <section id="about-section" class="about-section">
+      <h2>Sobre Nosotros</h2>
+
+      <div class="about-grid">
+
+        <article class="about-card">
+          <h3>¿Quiénes somos?</h3>
+          <p>
+            Somos un equipo apasionado por el cine de terror. Creamos La Cripta del Cine
+            como un proyecto para explorar, catalogar y compartir lo mejor del horror en todas sus vertientes.
+          </p>
+        </article>
+
+        <article class="about-card">
+          <h3>Nuestra visión</h3>
+          <p>
+            Queremos construir un espacio donde cualquier fan del terror pueda descubrir nuevas películas,
+            conocer clásicos, explorar subgéneros y disfrutar de un catálogo seleccionado cuidadosamente.
+          </p>
+        </article>
+
+        <article class="about-card">
+          <h3>Contacto</h3>
+          
+          <form id="contactForm" class="contact-form"> <!-- Formulario de contacto (enviado por main.js) -->
+            <label>
+              Nombre:
+              <input type="text" name="name" required> <!-- Campo nombre -->
+            </label>
+            <label>
+              Correo electrónico:
+              <input type="email" name="email" required> <!-- Campo email -->
+            </label>
+            <label>
+              Mensaje:
+              <textarea name="message" rows="4" required></textarea> <!-- Campo mensaje -->
+            </label>
+            
+            <button type="submit">Enviar</button> <!-- Botón enviar -->
+            <p id="contactMessage" class="contact-message"></p> <!-- Mensajes de estado -->
+          </form>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script src="scripts/main.js"></script> <!-- Script principal del frontend -->
+</body>
+</html>
