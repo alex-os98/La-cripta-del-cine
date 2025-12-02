@@ -12,7 +12,7 @@
       "basada en hechos reales"
     ],
     "gore": 4,
-    "scares": 4.7,
+    "scares": 4.3,
     "subgenre": "Sobrenatural",
     "comments": [
       {
@@ -22,16 +22,16 @@
       },
       {
         "user": "luyi",
-        "text": "prueba de comentarios",
+        "text": "excelente pelicula, me encanto",
         "date": "2025-11-11T02:46:47.368Z"
       }
     ],
-    "jumpscares": 4.7,
-    "suspense": 4.3,
-    "gore_count": 3,
-    "scares_count": 3,
-    "jumps_count": 3,
-    "suspense_count": 3
+    "jumpscares": 4.3,
+    "suspense": 4.1,
+    "gore_count": 7,
+    "scares_count": 7,
+    "jumps_count": 7,
+    "suspense_count": 7
   },
   {
     "id": 2,
